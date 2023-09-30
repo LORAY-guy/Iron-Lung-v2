@@ -140,6 +140,7 @@ class PlayState extends MusicBeatState
 	public var spawnTime:Float = 2000;
 
 	public var vocals:FlxSound;
+	public var vocals2:FlxSound;
 	public var inst:FlxSound;
 
 	public var dad:Character = null;
@@ -314,10 +315,7 @@ class PlayState extends MusicBeatState
 		storyDifficultyText = Difficulty.getString();
 
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
-		if (isStoryMode)
-			detailsText = "Story Mode: " + WeekData.getCurrentWeek().weekName;
-		else
-			detailsText = "Freeplay";
+		detailsText = "Going deep down";
 
 		// String for when the game is paused
 		detailsPausedText = "Paused - " + detailsText;
@@ -642,7 +640,8 @@ class PlayState extends MusicBeatState
 	{
 		if(generatedMusic)
 		{
-			if(vocals != null) vocals.pitch = value;
+			if(vocals != null) 
+				vocals.pitch = value;
 			FlxG.sound.music.pitch = value;
 		}
 		playbackRate = value;
@@ -1158,7 +1157,13 @@ class PlayState extends MusicBeatState
 		curSong = songData.song;
 
 		vocals = new FlxSound();
-		if (songData.needsVoices) vocals.loadEmbedded(Paths.voices(songData.song));
+		if (songData.needsVoices)
+		{
+			if (SONG.song.toLowerCase() == 'sunk')
+				vocals.loadEmbedded(Paths.voices(songData.song, true));
+			else
+				vocals.loadEmbedded(Paths.voices(songData.song, false));
+        }
 
 		vocals.pitch = playbackRate;
 		FlxG.sound.list.add(vocals);

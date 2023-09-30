@@ -209,12 +209,19 @@ class Paths
 		return file;
 	}
 
-	inline static public function voices(song:String):Any
+	inline static public function voices(song:String, isSunk:Bool):Any
 	{
 		#if html5
-		return 'songs:assets/songs/${formatToSongPath(song)}/Voices.$SOUND_EXT';
+		if (isSunk)
+			return 'songs:assets/songs/${formatToSongPath(song)}/Voices-${Difficulty.getString().toLowerCase()}.$SOUND_EXT';
+		else
+			return 'songs:assets/songs/${formatToSongPath(song)}/Voices.$SOUND_EXT';
 		#else
-		var songKey:String = '${formatToSongPath(song)}/Voices';
+		var songKey:String = ''; 
+		if (isSunk)
+			songKey = '${formatToSongPath(song)}/Voices-${Difficulty.getString().toLowerCase()}';
+		else
+			songKey = '${formatToSongPath(song)}/Voices';
 		var voices = returnSound('songs', songKey);
 		return voices;
 		#end

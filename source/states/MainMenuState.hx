@@ -28,8 +28,7 @@ class MainMenuState extends MusicBeatState
 	
 	var optionShit:Array<String> = [
 		'iron_lung',
-		//'freeplay', for future update
-		'shaggers',
+		'freeplay',
 		'credits',
 		'options'
 	];
@@ -117,11 +116,11 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion, 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Iron Lung v2", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Psych Engine v" + psychEngineVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -187,19 +186,8 @@ class MainMenuState extends MusicBeatState
 				MusicBeatState.switchState(new TitleState());
 			}
 
-			if(FlxG.keys.justPressed.CONTROL)
-			{
-				persistentUpdate = false;
-				openSubState(new GameplayChangersSubstate());
-			}
-
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'shaggers')
-				{
-					CoolUtil.browserLoad('https://youtube.com/@Shaggers');
-				}
-				else
 				{
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -229,11 +217,11 @@ class MainMenuState extends MusicBeatState
 									case 'iron_lung':
 										FlxG.sound.music.fadeOut(0.5, 0);
 										PlayState.SONG = Song.loadFromJson('iron-lung', 'iron-lung');
-										PlayState.isStoryMode = false;
 										PlayState.storyDifficulty = 0;
+										PlayState.isStoryMode = true;
 										LoadingState.loadAndSwitchState(new PlayState());
-									/*case 'freeplay':
-										MusicBeatState.switchState(new FreeplayState());*/
+									case 'freeplay':
+										MusicBeatState.switchState(new FreeplayState());
 									case 'credits':
 										MusicBeatState.switchState(new CreditsState());
 									case 'options':

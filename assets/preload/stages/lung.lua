@@ -400,6 +400,16 @@ function onStepHit()
 		end
 		runTimer('ending', (crochet / 1000) * 17)
 	end
+
+	if curStep == 2366 then
+	    if isStoryMode then
+			if photoTaken >= 4 then
+				loadSong('sunk', 'Mark')
+			else
+				loadSong('sunk', 'Captain')
+			end
+		end
+	end
 end
 
 function onTweenCompleted(tag, loops, loopsLeft)
