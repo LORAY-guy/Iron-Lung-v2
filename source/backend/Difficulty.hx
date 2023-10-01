@@ -3,9 +3,9 @@ package backend;
 class Difficulty
 {
 	public static var defaultList(default, never):Array<String> = [
-		'Easy',
-		'Normal',
-		'Hard'
+		'Mark',
+		'Hard',
+		'Captain',
 	];
 	public static var list:Array<String> = [];
 	private static var defaultDifficulty(default, never):String = 'Hard'; //The chart that has no suffix and starting difficulty on Freeplay/Story Mode

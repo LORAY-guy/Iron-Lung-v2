@@ -140,7 +140,6 @@ class PlayState extends MusicBeatState
 	public var spawnTime:Float = 2000;
 
 	public var vocals:FlxSound;
-	public var vocals2:FlxSound;
 	public var inst:FlxSound;
 
 	public var dad:Character = null;
@@ -1123,7 +1122,10 @@ class PlayState extends MusicBeatState
 		}
 
 		// Song duration in a float, useful for the time left feature
-		songLength = FlxG.sound.music.length;
+		if (SONG.song.toLowerCase() == 'iron-lung')
+			songLength = 161750;
+		else
+			songLength = FlxG.sound.music.length;
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 

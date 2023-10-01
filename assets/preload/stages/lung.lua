@@ -260,6 +260,10 @@ function onUpdatePost(elapsed)
 			firstOpening = true
 		end
 	end
+
+	if getPropertyFromClass('flixel.FlxG', 'keys.justPressed.B') then
+		endingCheck()
+	end
 end
 
 function checkNearbySprite()
@@ -399,16 +403,6 @@ function onStepHit()
 			textsEnding = {'You crashed into a wall...', 'You haven\'t taken all the required photographies.', 'Somewhere in the void, there must be hope...'}
 		end
 		runTimer('ending', (crochet / 1000) * 17)
-	end
-
-	if curStep == 2366 then
-	    if isStoryMode then
-			if photoTaken >= 4 then
-				loadSong('sunk', 'Mark')
-			else
-				loadSong('sunk', 'Captain')
-			end
-		end
 	end
 end
 
