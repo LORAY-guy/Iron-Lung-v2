@@ -217,7 +217,7 @@ class MainMenuState extends MusicBeatState
 									case 'iron_lung':
 										FlxG.sound.music.fadeOut(0.5, 0);
 										PlayState.SONG = Song.loadFromJson('iron-lung', 'iron-lung');
-										PlayState.storyDifficulty = 0;
+										PlayState.storyDifficulty = 1;
 										PlayState.isStoryMode = true;
 										LoadingState.loadAndSwitchState(new PlayState());
 									case 'freeplay':
