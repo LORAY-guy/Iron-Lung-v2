@@ -302,7 +302,7 @@ class EditorPlayState extends MusicBeatSubstate
 		Conductor.changeBPM(songData.bpm);
 
 		vocals = new FlxSound();
-		if (songData.needsVoices) vocals.loadEmbedded(Paths.voices(songData.song, false));
+		if (songData.needsVoices) vocals.loadEmbedded(Paths.voices(songData.song));
 		vocals.volume = 0;
 
 		vocals.pitch = playbackRate;

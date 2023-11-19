@@ -19,7 +19,7 @@ import substates.GameplayChangersSubstate;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var psychEngineVersion:String = '0.7'; //This is also used for Discord RPC
+	public static var psychEngineVersion:String = '0.7.1'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -45,7 +45,7 @@ class MainMenuState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("Welcome abord", null);
 		#end
 
 		camGame = new FlxCamera();
@@ -59,6 +59,8 @@ class MainMenuState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
+		Conductor.changeBPM(TitleState.titleJSON.bpm);
+		//trace('bpm : ' + Conductor.bpm);
 		persistentUpdate = persistentDraw = true;
 
 		//var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
@@ -218,7 +220,7 @@ class MainMenuState extends MusicBeatState
 										FlxG.sound.music.fadeOut(0.5, 0);
 										PlayState.SONG = Song.loadFromJson('iron-lung', 'iron-lung');
 										PlayState.storyDifficulty = 1;
-										PlayState.isStoryMode = true;
+										PlayState.isMainMenu = true;
 										LoadingState.loadAndSwitchState(new PlayState());
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());

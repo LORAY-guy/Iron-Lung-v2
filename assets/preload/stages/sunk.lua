@@ -3,7 +3,7 @@ function onCreate()
 	scaleObject('bg', 1.2, 1.2, true)
 	addLuaSprite('bg', false)
 
-	if difficultyName == 'Mark' then
+	if sunkMark == 'Mark' then
 		precacheImage('characters/mark-webcam')
 		makeAnimationList()
 
@@ -26,14 +26,35 @@ function onCreate()
 		addOffset('mark', 'singLEFT', 39.0, 265.0)
 		setObjectCamera('mark', 'camHUD')
 		playAnim('mark', 'idle', false, false, 0)
-		setObjectOrder('mark', 2)
+		setObjectOrder('mark', getObjectOrder("markbg") + 1)
 		scaleObject('mark', 0.6, 0.6, true)
 		addLuaSprite('mark', false)
 	end
+
+	makeLuaSprite('end', '', 0, 0)
+	makeGraphic('end', 1280, 720, '000000')
+	setObjectCamera('end', 'camOther')
+	screenCenter('end', 'xy')
+	setProperty('end.visible', false)
+	addLuaSprite('end', false)
+
+	makeLuaText('endText', 'Thanks for playing!', 1280, 0.0, 0.0)
+	setTextFont('endText', "ourple.ttf")
+	setTextSize('endText', 72)
+	setTextColor('endText', '00FF00')
+	setObjectCamera('endText', 'camOther')
+	screenCenter('endText', 'xy')
+	setProperty('endText.visible', false)
+	addLuaText('endText')
 end
 
 function onCreatePost()
+	setProperty("cameraSpeed", 100)
 	triggerEvent("Camera Follow Pos", '197.5', '171')
+end
+
+function onSongStart()
+	setProperty("cameraSpeed", 1)
 end
 
 animationsList = {}
@@ -69,24 +90,29 @@ end
 
 function onStepHit()
 	if curStep == 2356 then
-		if difficultyName == 'Mark' then
+		if sunkMark == 'Mark' then
 			markTransitionStart()
 		end
 	end
 
 	if curStep == 2880 then
-		if difficultyName == 'Mark' then
+		if sunkMark == 'Mark' then
 			markTransitionEnd()
 		end
 	end
 
 	if curStep == 3072 then
-		if difficultyName == 'Mark' then
+		if sunkMark == 'Mark' then
 			setProperty('markbg.x', 0)
-			setProperty('mark.x', 45)
-			setProperty('mark.flipX', true)
 			markTransitionAltStart()
 		end
+	end
+
+	if curStep == 3152 then
+		setProperty('camHUD.visible', false)
+		setProperty('camGame.visible', false)
+		setProperty('end.visible', true)
+		setProperty('endText.visible', true)
 	end
 end
 
@@ -98,8 +124,12 @@ end
 
 function markTransitionStart()
 	for i = 4,7 do
-		noteTweenY(i..'Y', i, 345, 0.75, 'bounceOut')
+		noteTweenX((i - 4)..'XSwitchSpot', (i - 4),  _G['defaultPlayerStrumX'..(i - 4)], 0.75, 'quadInOut')
+		noteTweenY((i - 4)..'YSwitchSpot', (i - 4),  _G['defaultPlayerStrumY'..(i - 4)] + 300, 0.75, 'quadInOut')
+		noteTweenX(i..'XSwitchSpot', i, _G['defaultOpponentStrumX'..(i - 4)], 0.75, 'quadInOut')
+		noteTweenY(i..'YSwitchSpot', i, _G['defaultOpponentStrumY'..(i - 4)], 0.75, 'quadInOut')
 	end
+	rotationAnim()
 	doTweenY('markBgComeDown', 'markbg', 0, 0.75, 'bounceOut')
 	doTweenY('markComeDown', 'mark', 111, 0.75, 'bounceOut')
 	doTweenX('timeBarGoLeft', 'timeBar', getProperty('timeBar.x') - 326, 0.75, 'bounceOut')
@@ -111,9 +141,12 @@ function markTransitionStart()
 end
 
 function markTransitionEnd()
-	for i = 0,3 do
-		noteTweenY(i..'YEnd', i, defaultOpponentStrumY0, 0.75, 'bounceOut')
+	for i = 4,7 do
+		noteTweenY((i - 4)..'YEnd', (i - 4), defaultOpponentStrumY0, 0.75, 'bounceOut')
+		noteTweenX(i..'XSwitchSpotEnd', i, _G['defaultPlayerStrumX'..(i - 4)], 0.75, 'quadInOut')
+		noteTweenX((i - 4)..'XSwitchSpotEnd', (i - 4), _G['defaultOpponentStrumX'..(i - 4)], 0.75, 'quadInOut')
 	end
+	rotationAnim()
 	doTweenY('markBgComeDown', 'markbg', -550, 0.75, 'bounceOut')
 	doTweenY('markComeDown', 'mark', -550, 0.75, 'bounceOut')
 	doTweenX('timeBarGoLeft', 'timeBar', getProperty('timeBar.x') + 326, 0.75, 'bounceOut')
@@ -128,6 +161,7 @@ function markTransitionAltStart()
 	for i = 0,3 do
 		noteTweenY(i..'Y', i, 345, 0.75, 'bounceOut')
 	end
+	switchOffset()
 	doTweenY('markBgComeDown', 'markbg', 0, 0.75, 'bounceOut')
 	doTweenY('markComeDown', 'mark', 111, 0.75, 'bounceOut')
 	doTweenX('timeBarGoLeft', 'timeBar', getProperty('timeBar.x') + 322, 0.75, 'bounceOut')
@@ -147,19 +181,36 @@ function onTimerCompleted(tag, loops, loopsLeft)
 end
 
 function onTweenCompleted(tag)
-	if tag == '4Y' then
-		for i = 4,7 do
-			noteTweenX((i - 4)..'XSwitchSpot', (i - 4), getPropertyFromGroup('strumLineNotes', i, 'x'), 0.75, 'quadInOut')
-			noteTweenY((i - 4)..'YSwitchSpot', (i - 4), getPropertyFromGroup('strumLineNotes', i, 'y'), 0.75, 'quadInOut')
-			noteTweenX(i..'XSwitchSpot', i, _G['defaultOpponentStrumX'..(i - 4)], 0.75, 'quadInOut')
-			noteTweenY(i..'YSwitchSpot', i, _G['defaultPlayerStrumY'..(i - 4)], 0.75, 'quadInOut')
+	if tag == '0AngleSwitch' then
+		for i = 0,7 do
+			setPropertyFromGroup('strumLineNotes', i, 'angle', 0)
 		end
 	end
+end
 
-	if tag == '0YEnd' then
-		for i = 4,7 do
-			setPropertyFromGroup('strumLineNotes', i, 'x', _G['defaultPlayerStrumX'..(i - 4)])
-			setPropertyFromGroup('strumLineNotes', (i - 4), 'x', _G['defaultOpponentStrumX'..(i - 4)])
-		end
+function rotationAnim()
+	for j = 0,7 do
+		noteTweenAngle(j..'AngleSwitch', j, 360, 0.75, 'sineOut')
 	end
+end
+
+function switchOffset()
+	removeLuaSprite("mark", true)
+	makeAnimatedLuaSprite('mark', 'characters/mark-webcam', 42, -550)
+	addAnimationByPrefix('mark', 'idle', 'Idle', 24, false)
+	addOffset('mark', 'idle', 0, 260)
+	addAnimationByPrefix('mark', 'singLEFT', 'Right', 24, false)
+	addOffset('mark', 'singRIGHT', 39.0, 265.0)
+	addAnimationByPrefix('mark', 'singDOWN', 'Down', 24, false)
+	addOffset('mark', 'singDOWN', -21.0, 174.0)
+	addAnimationByPrefix('mark', 'singUP', 'Up', 24, false)
+	addOffset('mark', 'singUP', -2.0, 271.0)
+	addAnimationByPrefix('mark', 'singRIGHT', 'Left', 24, false)
+	addOffset('mark', 'singLEFT', 89.0, 255.0)
+	setObjectCamera('mark', 'camHUD')
+	playAnim('mark', 'idle', false, false, 0)
+	setObjectOrder('mark', getObjectOrder("markbg") + 1)
+	scaleObject('mark', 0.6, 0.6, true)
+	setProperty('mark.flipX', true)
+	addLuaSprite('mark', false)
 end

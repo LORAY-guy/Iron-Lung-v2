@@ -7,13 +7,9 @@ import objects.Character;
 import objects.HealthBar;
 import flixel.addons.display.shapes.FlxShapeCircle;
 
-import states.stages.StageWeek1 as BackgroundStage;
-
 class NoteOffsetState extends MusicBeatState
 {
-	var stageDirectory:String = 'week1';
 	var boyfriend:Character;
-	var gf:Character;
 
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
@@ -32,6 +28,19 @@ class NoteOffsetState extends MusicBeatState
 	var beatText:Alphabet;
 	var beatTween:FlxTween;
 
+	var ocean:BGSprite;
+	var frontdoor:BGSprite;
+	var bg:BGSprite;
+	var tubes:BGSprite;
+	var table:BGSprite;
+	var depth:BGSprite;
+	var depthmeter:BGSprite;
+	var oxygenmeter:BGSprite;
+	var curoxygen:BGSprite;
+	var lamp:BGSprite;
+	var light:BGSprite;
+	var vignette:BGSprite;
+	
 	var changeModeText:FlxText;
 
 	var controllerPointer:FlxSprite;
@@ -51,26 +60,55 @@ class NoteOffsetState extends MusicBeatState
 		FlxG.cameras.add(camOther, false);
 
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
+		FlxG.camera.zoom = 0.765;
 		CustomFadeTransition.nextCamera = camOther;
-		FlxG.camera.scroll.set(120, 130);
+		FlxG.camera.scroll.set(1025, 600);
 
 		persistentUpdate = true;
 		FlxG.sound.pause();
 
 		// Stage
-		Paths.setCurrentLevel(stageDirectory);
-		new BackgroundStage();
+		ocean = new BGSprite('lung/bloodocean', 775, 375, 1, 1);
+		add(ocean);
+		
+		frontdoor = new BGSprite('lung/doorthingy', 775, 375, 1, 1);
+		add(frontdoor);
+
+		bg = new BGSprite('lung/ironlung', 775, 375, 1, 1);
+		add(bg);
+
+		tubes = new BGSprite('lung/tubes', 775, 375, 1, 1);
+		add(tubes);
+
+		table = new BGSprite('lung/table', 775, 375, 1, 1);
+		add(table);
+
+		depth = new BGSprite('lung/depth', 775, 375, 1, 1);
+		add(depth);
+
+		depthmeter = new BGSprite('lung/meter', 775, 375, 1, 1);
+		add(depthmeter);
+
+		oxygenmeter = new BGSprite('lung/oxygenmeter', 775, 375, 1, 1);
+		add(oxygenmeter);
+
+		curoxygen = new BGSprite('lung/oxygen1', 775, 375, 1, 1);
+		add(curoxygen);
+
+		lamp = new BGSprite('lung/lamp', 775, 375, 1, 1);
+		add(lamp);
 
 		// Characters
-		gf = new Character(400, 130, 'gf');
-		gf.x += gf.positionArray[0];
-		gf.y += gf.positionArray[1];
-		gf.scrollFactor.set(0.95, 0.95);
-		boyfriend = new Character(770, 100, 'bf', true);
-		boyfriend.x += boyfriend.positionArray[0];
-		boyfriend.y += boyfriend.positionArray[1];
-		add(gf);
+		boyfriend = new Character(1150, 755, 'mark', false);
 		add(boyfriend);
+
+		//Post-Stage stuff
+		light = new BGSprite('lung/light', 620, 395, 1, 1);
+		light.setGraphicSize(Std.int(light.width * 1.2));
+		add(light);
+
+		vignette = new BGSprite('lung/vignette', 775, 375, 1, 1);
+		add(vignette);
 
 		// Combo stuff
 		coolText = new FlxText(0, 0, 0, '', 32);
@@ -116,8 +154,8 @@ class NoteOffsetState extends MusicBeatState
 
 		// Note delay stuff
 		beatText = new Alphabet(0, 0, 'Beat Hit!', true);
+		beatText.x += 1525;
 		beatText.setScale(0.6, 0.6);
-		beatText.x += 260;
 		beatText.alpha = 0;
 		beatText.acceleration.y = 250;
 		beatText.visible = false;
@@ -429,29 +467,24 @@ class NoteOffsetState extends MusicBeatState
 		super.beatHit();
 
 		if(lastBeatHit == curBeat)
-		{
 			return;
-		}
 
 		if(curBeat % 2 == 0)
-		{
 			boyfriend.dance();
-			gf.dance();
-		}
 		
-		if(curBeat % 4 == 2)
+		if(curBeat % 4 == 0)
 		{
-			FlxG.camera.zoom = 1.15;
+			FlxG.camera.zoom = 0.75;
 
 			if(zoomTween != null) zoomTween.cancel();
-			zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.circOut, onComplete: function(twn:FlxTween)
+			zoomTween = FlxTween.tween(FlxG.camera, {zoom: 0.765}, 1, {ease: FlxEase.circOut, onComplete: function(twn:FlxTween)
 				{
 					zoomTween = null;
 				}
 			});
 
 			beatText.alpha = 1;
-			beatText.y = 320;
+			beatText.y = 800;
 			beatText.velocity.y = -150;
 			if(beatTween != null) beatTween.cancel();
 			beatTween = FlxTween.tween(beatText, {alpha: 0}, 1, {ease: FlxEase.sineIn, onComplete: function(twn:FlxTween)

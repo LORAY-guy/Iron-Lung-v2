@@ -200,23 +200,28 @@ class LuaUtils
 
 	public static inline function getLowestCharacterGroup():FlxSpriteGroup
 	{
-		var group:FlxSpriteGroup = PlayState.instance.gfGroup;
-		var pos:Int = PlayState.instance.members.indexOf(group);
+		if (PlayState.SONG.song.toLowerCase() != 'iron-lung')
+		{
+			var group:FlxSpriteGroup = PlayState.instance.gfGroup;
+			var pos:Int = PlayState.instance.members.indexOf(group);
 
-		var newPos:Int = PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup);
-		if(newPos < pos)
-		{
-			group = PlayState.instance.boyfriendGroup;
-			pos = newPos;
+			var newPos:Int = PlayState.instance.members.indexOf(PlayState.instance.boyfriendGroup);
+			if(newPos < pos)
+			{
+				group = PlayState.instance.boyfriendGroup;
+				pos = newPos;
+			}
+			
+			newPos = PlayState.instance.members.indexOf(PlayState.instance.dadGroup);
+			if(newPos < pos)
+			{
+				group = PlayState.instance.dadGroup;
+				pos = newPos;
+			}
+			return group;
+		} else {
+			return PlayState.instance.boyfriendGroup;
 		}
-		
-		newPos = PlayState.instance.members.indexOf(PlayState.instance.dadGroup);
-		if(newPos < pos)
-		{
-			group = PlayState.instance.dadGroup;
-			pos = newPos;
-		}
-		return group;
 	}
 	
 	public static function addAnimByIndices(obj:String, name:String, prefix:String, indices:Any = null, framerate:Int = 24, loop:Bool = false)
@@ -410,6 +415,7 @@ class LuaUtils
 	public static function cameraFromString(cam:String):FlxCamera {
 		switch(cam.toLowerCase()) {
 			case 'camhud' | 'hud': return PlayState.instance.camHUD;
+			case 'camlung' | 'lung': return PlayState.instance.camLung;
 			case 'camother' | 'other': return PlayState.instance.camOther;
 		}
 		return PlayState.instance.camGame;

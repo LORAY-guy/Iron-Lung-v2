@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="steam.png">
+<SubTexture name="steam0000" x="0" y="0" width="600" height="600" frameX="0" frameY="0" frameWidth="600" frameHeight="600" />
+<SubTexture name="steam0001" x="600" y="0" width="600" height="600" frameX="0" frameY="0" frameWidth="600" frameHeight="600" />
+<SubTexture name="steam0002" x="0" y="600" width="600" height="600" frameX="0" frameY="0" frameWidth="600" frameHeight="600" />
+<SubTexture name="steam0003" x="600" y="600" width="600" height="600" frameX="0" frameY="0" frameWidth="600" frameHeight="600" />
+<SubTexture name="steam0004" x="1200" y="0" width="600" height="600" frameX="0" frameY="0" frameWidth="600" frameHeight="600" />
+</TextureAtlas>

@@ -27,7 +27,7 @@ class CreditsState extends MusicBeatState
 	{
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("Paying respect to the crew", null);
 		#end
 
 		persistentUpdate = true;
@@ -46,15 +46,16 @@ class CreditsState extends MusicBeatState
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Iron Lung Mod Team'],
 			['Shaggers',			'Shaggers',			'Lead Director/Composer/Coder',									'https://www.youtube.com/@Shaggers',	'00FF55'],
-			['ral',					'ral',				'Artist',														'https://www.twitter.com/@ItterRal',	'CCCCCC'],
-			['Toasty',				'toasty',			'Matpat Sprite',												'https://www.youtube.com/@Toasty1082',	'FBA4E1'],
+			['ral',					'ral',				'Iron Lung BG/Mark Sprites',									'https://www.twitter.com/@ItterRal',	'CCCCCC'],
+			['Crafted',				'crafted',			'Sunk stage/Fixed some assets',									'https://www.youtube.com/channel/UCVEEHq2dD8mL60T53alzjuA',		'C9C5C5'],
+			['Whitey',				'whitey',			'OST Art',														'https://twitter.com/Whitemungus',		'BBBBBB'],
 			[''],
 			['Original Iron Lung by'],
 			['David Szymanski',		'David',			'Made the Iron Lung game',										'https://store.steampowered.com/app/1846170/Iron_Lung',	'000033'],
 			[''],
 			['Inspiration'],
 			['Markiplier',			'mark',				'I hope the movie will be better than the FNAF movie',			'https://www.youtube.com/@markiplier',	'F67B9A'],
-			['Lixian',				'lix',				'Made Sinking Iron, also known as Iron Lung 2',					'https://www.youtube.com/@lixianTV',	'FAFAFA'],
+			['Lixian',				'lix',				'Made Sinking Iron, also known as "Iron Lung 2"',				'https://www.youtube.com/@lixianTV',	'FAFAFA'],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
@@ -181,8 +182,11 @@ class CreditsState extends MusicBeatState
 				}
 			}
 
-			if(controls.ACCEPT && (creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4)) {
-				CoolUtil.browserLoad(creditsStuff[curSelected][3]);
+			if(controls.ACCEPT) {
+				if (creditsStuff[curSelected][0] == 'Shaggers')
+					MusicBeatState.switchState(new ShaggersState());
+				else if (creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4)
+					CoolUtil.browserLoad(creditsStuff[curSelected][3]);
 			}
 			if (controls.BACK)
 			{

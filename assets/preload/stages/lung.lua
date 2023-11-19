@@ -12,6 +12,7 @@ local spriteStates = {}
 local checkedLocation = {}
 
 local photoTaken = 0
+local goodEnd = false
 
 local cooldown = false
 
@@ -26,8 +27,18 @@ local peppinoLuck = 0 -- secret lol
 local textsEnding = {}
 
 function onCreate()
-
 	precacheSound('oxygen')
+	precacheSound('jumpscare')
+	precacheSound('printing')
+
+	if not lowQuality then
+		precacheSound("StreamHiss")
+		precacheSound("TeleportSound")
+		precacheSound("SteamSoundBurst")
+	end
+	
+	precacheSound('goodEnding')
+	precacheSound('badEnding')
 
 	makeLuaSprite('ocean', 'lung/bloodocean', 775, 375)
 	addLuaSprite('ocean', false)
@@ -57,6 +68,23 @@ function onCreate()
 	makeLuaSprite('curoxygen','lung/oxygen1', 775, 375)
 	addLuaSprite('curoxygen', false)
 
+	if not lowQuality then
+		makeAnimatedLuaSprite('steam1', 'lung/steam', 970, 950)
+		addAnimationByPrefix('steam1', 'steam', 'steam', 30, true)
+		objectPlayAnimation('steam1', 'steam', false)
+		setProperty('steam1.visible', false)
+		setProperty('steam1.alpha', 0.4)
+		addLuaSprite('steam1', false)
+
+		makeAnimatedLuaSprite('steam2', 'lung/steam', 1770, 430)
+		addAnimationByPrefix('steam2', 'steam', 'steam', 30, true)
+		objectPlayAnimation('steam2', 'steam', false)
+		setProperty('steam2.visible', false)
+		setProperty('steam2.alpha', 0.4)
+		setProperty('steam2.angle', -180)
+		addLuaSprite('steam2', false)
+	end
+
 	makeLuaSprite('monsta','lung/monsta', 1160, 590)
 	scaleObject('monsta', 4, 4)
 	setProperty('monsta.visible', false)
@@ -81,12 +109,12 @@ function onCreate()
 
 	makeLuaSprite('map','lung/MapTex', 0, 395) --took from the original game's resources
 	scaleObject('map', 0.325, 0.325)
-	setObjectCamera('map', 'camHUD')
+	setObjectCamera('map', 'camLung')
 	addLuaSprite('map', false)
 
 	makeAnimatedLuaSprite('tv', 'lung/monitor', 850, -80)
 	scaleObject('tv', 0.85, 0.85)
-	setObjectCamera('tv', 'camHUD')
+	setObjectCamera('tv', 'camLung')
 	setProperty('tv.antialiasing', false)
 	addLuaSprite('tv', false)
 	
@@ -117,8 +145,8 @@ function onCreate()
 	makeAnimatedLuaSprite('static','lung/static', 850, -80)
 	addAnimationByPrefix('static', 'idle', 'vhs', 24, true)
 	objectPlayAnimation('static', 'idle', false)
-	scaleObject('static', 0.85, 0.85)
-	setObjectCamera('static', 'camHUD')
+	scaleObject('static', 0.845, 0.85)
+	setObjectCamera('static', 'camLung')
 	setProperty('static.alpha', 0)
 	setProperty('static.visible', false)
 	setProperty('static.antialiasing', false)
@@ -128,7 +156,7 @@ function onCreate()
 	addAnimationByPrefix('peppino', 'idle', 'Idle', 24, true)
 	objectPlayAnimation('pepino', 'idle', false)
 	scaleObject('peppino', 1.6, 1.6)
-	setObjectCamera('peppino', 'camHUD')
+	setObjectCamera('peppino', 'camLung')
 	setProperty('peppino.antialiasing', false)
 	setProperty('peppino.alpha', 0)
 	addLuaSprite('peppino', false)
@@ -136,14 +164,14 @@ function onCreate()
 	for i = 1, 5 do
 		makeLuaSprite('mark'..i,'lung/crosshairunselect', 0, 0) --taken from the original game's resources
 		scaleObject('mark'..i, 0.6, 0.6)
-		setObjectCamera('mark'..i, 'camHUD')
+		setObjectCamera('mark'..i, 'camLung')
 		setObjectOrder('mark'..i, getObjectOrder('map') + 1)
 		addLuaSprite('mark'..i, false)
 	end
 
 	makeLuaSprite('ship','lung/shiplocation', 52, 675) --taken from the original game's resources
 	scaleObject('ship', 0.5, 0.5)
-	setObjectCamera('ship', 'camHUD')
+	setObjectCamera('ship', 'camLung')
 	setObjectOrder('ship', getObjectOrder('map') + 1)
 	setProperty('ship.angle', -90)
 	addLuaSprite('ship', false)
@@ -161,6 +189,7 @@ function onCreate()
 	makeLuaText('mouseText', 'X_?\nY_?', 150, getMouseX('other'), getMouseY('other'))
 	setTextSize('mouseText', 18)
 	setTextBorder('mouseText', 0)
+	setObjectCamera('mouseText', 'camLung')
 	setProperty('mouseText.visible', false)
 	addLuaText('mouseText', true)
 
@@ -174,11 +203,10 @@ function onCreate()
 
 	setProperty('skipCountdown', true)
 	math.randomseed(os.time())
-
 end
 
 function onCreatePost()
-	triggerEvent('Camera Follow Pos', '1650', '1000') --freeze camera, avoids using setProperty('camFollow.x') and setProperty('camFollow.y')
+	triggerEvent('Camera Follow Pos', '1649.5', '1000') --freeze camera, avoids using setProperty('camFollow.x') and setProperty('camFollow.y')
 
 	for i = 1, #hudMap do
 		setProperty(hudMap[i]..'.alpha', 0)
@@ -191,16 +219,17 @@ function onCreatePost()
 end
 
 function onSongStart()
-	totalSteps = 2367
+	totalSteps = 2560
 	totalMvt1 = ((stepCrochet / 1000) * 1024) / 15
-	totalMvt2 = ((stepCrochet / 1000) * 512) / 15
+	totalMvt2 = ((stepCrochet / 1000) * 1032) / 15
 	quarterLength = totalSteps / 4
 
 	for i = 1, 3 do
 		table.insert(quarterSong, math.floor(quarterLength * i))
 	end
-
+	
 	doTweenY('whatyouknowaboutrollingdowninthedeep', 'depthmeter', 375, 32, 'linear')
+	setProperty("camZooming", true)
 end
 
 function onUpdatePost(elapsed)
@@ -222,7 +251,7 @@ function onUpdatePost(elapsed)
 		end
 	end
 
-	if getPropertyFromClass('flixel.FlxG', 'keys.justPressed.SPACE') and curStep >= 512 and curStep < 2048 and cooldown == false then
+	if getPropertyFromClass('flixel.FlxG', 'keys.justPressed.SPACE') and curStep >= 512 and curStep < 2560 and cooldown == false then
 		if not firstPhoto then
 			firstPhoto = true
 		end
@@ -261,8 +290,14 @@ function onUpdatePost(elapsed)
 		end
 	end
 
-	if getPropertyFromClass('flixel.FlxG', 'keys.justPressed.B') then
-		endingCheck()
+	if curStep >= 2500 then
+		noteCount = getProperty('notes.length')
+		for i = 0, noteCount-1 do
+			noteType = getPropertyFromGroup('notes', i, 'noteType')
+			if (not goodEnd and noteType == 'goodEnding') or (goodEnd and noteType == 'badEnding') then
+				removeFromGroup('notes', i)
+			end
+		end
 	end
 end
 
@@ -299,6 +334,10 @@ function printImportant(num)
 	objectPlayAnimation('tv', animationName, false)
 	if animationName ~= 'important2nofish' then
 		photoTaken = photoTaken + 1
+		if photoTaken == 4 then
+			goodEnd = true
+			goodEndingBro()
+		end
 	end
 end
 
@@ -317,7 +356,7 @@ function printRandom()
 end
 
 function onUpdate(elapsed)
-	setProperty('mouseText.x', getMouseX('other') - 30)
+	setProperty('mouseText.x', getMouseX('other') - 25)
 	setProperty('mouseText.y', getMouseY('other') - 18)
 	
 	if luaTextExists('tutorialTxt') == true then
@@ -366,6 +405,10 @@ function onStepHit()
 		setProperty('tutorialTxt.visible', true)
 	end
 
+	if curStep == 1504 then
+        doTweenAlpha("byeoverlayfr", "blackoverlay", 1, (stepCrochet / 1000) * 32, "linear")
+    end
+
 	if curStep == 1536 then
 		cancelTween('151')
 		cancelTween('152')
@@ -375,6 +418,16 @@ function onStepHit()
 		monstaMoment = true
 		runTimer('noMoreMonsta', 10)
 		doTweenAngle('boatstartspart2', 'ship', 0, 2, 'sineInOut')
+		doTweenColor("lampRed", "lamp", "FF0000", 0.01, "linear")
+		doTweenColor("lightRed", "light", "FF0000", 0.01, "linear")
+		doTweenColor("vignetteRed", "vignette", "FF0000", 0.01, "linear")
+		doTweenAlpha("lightAlertOut", "light", 0, 0.8, "linear")
+		if not lowQuality then
+			setProperty("steam1.visible", true)
+			setProperty("steam2.visible", true)
+			playSound("SteamSoundBurst", 0.05, 'burst')
+			playSound("TeleportSound", 0.3)
+		end
 	end
 
 	for i = 1, #quarterSong do
@@ -384,10 +437,18 @@ function onStepHit()
 		end
 	end
 
-	if curStep == 2048 then
+	if curStep == 2528 then -- play the ending sound
+		if goodEnd then
+			playSound("goodEnding", 1, "endingSound")
+		else
+			playSound("badEnding", 1, "endingSound")
+		end
+	end
+
+	if curStep == 2560 then
 		setProperty('static.visible', false)
 		cancelTween('340')
-		if photoTaken >= 4 then
+		if not goodEnd then
 		    setProperty('monsta.visible', true)
 			objectPlayAnimation('splash', 'splash', false)
 			doTweenX('bigMonstaX', 'monsta.scale', 5, 0.7, 'linear')
@@ -396,13 +457,21 @@ function onStepHit()
 			playSound('jumpscare', 1, 'jumpscare')
 			cameraShake('camGame', 0.025, 0.7)
 			runTimer('pre-ending', 0.7)
-			textsEnding = {'A huge beast destroyed your ship.', 'No photographies has been recovered.', 'Somewhere in the void, there must be hope...'}
+			textsEnding = {'A huge beast destroyed your ship.', 'You haven\'t taken all the required photographies.', 'Somewhere in the void, there must be hope...'}
 		else
-			setProperty('camGame.visible', false)
-			setProperty('camHUD.visible', false)
-			textsEnding = {'You crashed into a wall...', 'You haven\'t taken all the required photographies.', 'Somewhere in the void, there must be hope...'}
+			runTimer('pre-ending', (crochet / 1000) * 8)
+			textsEnding = {'You crashed into a wall...', 'No photographies has been recovered.', 'Somewhere in the void, there must be hope...'}
 		end
 		runTimer('ending', (crochet / 1000) * 17)
+		soundFadeOut("hiss", 0.6, 0)
+	end
+
+	if curStep == 2568 and goodEnd then
+		cameraShake('camGame', 0.015, (stepCrochet / 1000) * 16)
+	end
+
+	if curStep == 2584 and goodEnd then
+		cameraShake('camGame', 0.03, (stepCrochet / 1000) * 16)
 	end
 end
 
@@ -411,11 +480,27 @@ function onTweenCompleted(tag, loops, loopsLeft)
 		blocked = false
 	end
 
-	if tag == 'byeoverlay' then
-		removeLuaSprite('blackoverlay', true)
+	if tag == 'byeoverlayfr' then
+		setObjectCamera("blackoverlay", "camGame")
+		setObjectOrder("blackoverlay", getObjectOrder("boyfriendGroup") + 1)
+		setProperty("blackoverlay.x", getProperty("blackoverlay.x") + 700)
+		doTweenColor("blackoverlayRed", "blackoverlay", "FF0000", 0.01, "linear")
+		--removeLuaSprite('blackoverlay', true)
 	end
 
-	--boat movements
+	if tag == 'blackoverlayRed' then
+		setProperty("blackoverlay.alpha", 0.2)
+	end
+
+	if tag == 'lightAlertIn' then
+		doTweenAlpha("lightAlertOut", "light", 0, 0.8, "quadOut")
+	end
+
+	if tag == 'lightAlertOut' then
+		doTweenAlpha("lightAlertIn", "light", 1, 0.8, "quadOut")
+	end
+
+	--ship movements
 	if tag == 'boatstarts' then
 		doTweenAngle('boatrotate', 'ship', -45, totalMvt1 / 2, 'sineInOut')
 	elseif tag == 'boatrotate' then	
@@ -478,19 +563,28 @@ function onTweenCompleted(tag, loops, loopsLeft)
 	elseif tag == '270' then
 		doTweenX('280', 'ship', 179, totalMvt2, 'sineInOut')
 	elseif tag == '280' then
-		doTweenAngle('290', 'ship', -65, totalMvt2 / 1.5, 'sineInOut')
+		doTweenAngle('290', 'ship', -65, totalMvt2, 'sineInOut')
 	elseif tag == '290' then
 		doTweenX('301', 'ship', 194, totalMvt2, 'sineInOut')
 		doTweenY('302', 'ship', 467, totalMvt2, 'sineInOut')
 	elseif tag == '301' then
-		doTweenAngle('310', 'ship', -10, totalMvt2 / 2, 'sineInOut')
+		doTweenAngle('310', 'ship', -10, totalMvt2, 'sineInOut')
 	elseif tag == '310' then
 		doTweenX('320', 'ship', 215, totalMvt2, 'sineInOut')
 		doTweenY('340', 'ship', 462, totalMvt2, 'sineInOut')
 	elseif tag == '320' then
-		doTweenAngle('330', 'ship', -90, totalMvt2 / 2, 'sineInOut')
+		if goodEnd then
+			doTweenAngle('330', 'ship', -35, totalMvt2 / 2, 'sineInOut')
+		else
+			doTweenAngle('330', 'ship', -90, totalMvt2, 'sineInOut')
+		end
 	elseif tag == '330' then
-		doTweenY('340', 'ship', 446, totalMvt2, 'sineInOut')
+		if goodEnd then
+			doTweenX('goodEndYesY', 'ship', 221, totalMvt2, 'sineInOut')
+			doTweenY('goodEndYesX', 'ship', 456, totalMvt2, 'sineInOut')
+		else
+			doTweenY('brub', 'ship', 446, totalMvt2 * 6, 'sineInOut')
+		end
 	end
 end
 
@@ -511,6 +605,7 @@ function onTimerCompleted(tag, loops, loopsLeft)
 	if tag == 'pre-ending' then
 		setProperty('camGame.visible', false)
 		setProperty('camHUD.visible', false)
+		setProperty('camLung.visible', false)
 	end
 
 	if tag == 'ending' then
@@ -520,19 +615,19 @@ function onTimerCompleted(tag, loops, loopsLeft)
 		screenCenter('endingTxt', 'xy')
 		setTextColor('endingTxt', '00FF00')
 		addLuaText('endingTxt', false)
-		runTimer('ending2', (crochet / 1000) * 16)
+		runTimer('ending2', (crochet / 1000) * 17)
 	end
 
 	if tag == 'ending2' then
 		setTextString('endingTxt', textsEnding[2])
 		screenCenter('endingTxt', 'xy')
-		runTimer('ending3', (crochet / 1000) * 16)
+		runTimer('ending3', (crochet / 1000) * 17)
 	end
 
 	if tag == 'ending3' then
 		setTextString('endingTxt', textsEnding[3])
 		screenCenter('endingTxt', 'xy')
-		runTimer('logoReveal', (crochet / 1000) * 16)
+		runTimer('logoReveal', (crochet / 1000) * 17)
 	end
 
 	if tag == 'logoReveal' then
@@ -568,4 +663,46 @@ function mouseOverLapsSprite(spr, cam)
         mouseX, mouseY, 1, 1,
         x, y, w, h
     )
+end
+
+function noteMiss(membersIndex, noteData, noteType, isSustainNote)
+	if noteType == 'goodEnding' or noteType == 'badEnding' then
+		setSoundVolume("endingSound", 0.0)
+	end
+end
+
+function goodNoteHit(membersIndex, noteData, noteType, isSustainNote)
+	if noteType == 'goodEnding' or noteType == 'badEnding' then
+		setSoundVolume("endingSound", 1.0)
+	end
+end
+
+function onPause()
+	if luaSoundExists("endingSound") then
+		pauseSound("endingSound")
+	end
+
+	if luaSoundExists("hiss") then
+		pauseSound("hiss")
+	end
+end
+
+function onResume()
+	if luaSoundExists("endingSound") then
+		resumeSound("endingSound")
+	end
+
+	if luaSoundExists("hiss") then
+		resumeSound("hiss")
+	end
+end
+
+function onSoundFinished(tag)
+	if tag == 'burst' then
+		playSound("StreamHiss", 0.03, "hiss")
+	end
+
+	if tag == 'hiss' and curStep < 2560 then
+		playSound("StreamHiss", 0.03, "hiss")
+	end
 end

@@ -1,17 +1,19 @@
 local particles = {}
 
-local xOffset = 0
-local xPos = 0
-local mult = 0
+local xOffset = 175
+local xPos = 1560
+local mult = 1
 
-function onCreatePost()
-	xOffset = 175
-	xPos = 1560
-	mult = 1
-end
+local endTime = 2550
 
 function onStepHit()
-	if curStep == 2048 then
+	if curStep == 2549 then
+		if youGood() then
+			endTime = 2575
+		end
+	end
+
+	if curStep == endTime then
 		xOffset = 1280
 		xPos = 0
 		mult = 2
@@ -29,7 +31,7 @@ function bubble(x, y)
 	
 	setObjectOrder(sprite, getObjectOrder('frontdoor'))
 
-	if curStep >= 2048 then
+	if curStep >= endTime then
 		setObjectCamera(sprite, 'camOther')
 	end
 	
@@ -68,14 +70,14 @@ function onUpdate(elapsed)
 		end			
 	end
 
-	if curStep < 390 or curStep >= 2048 and curStep < 2290 then
+	if (curStep < 390) or (curStep >= endTime and curStep < 2820) or (inGameOver) then
 		bubble(xPos, 1500)
 	end
 
 end
 
---[[function onStepHit()
-    if curStep % 4 == 0 and curStep <= 390 then
-        bubble(1440, 1350)
-    end
-end--]]
+function onGameOverStart()
+	xOffset = 1280
+	xPos = 0
+	mult = 2
+end

@@ -14,7 +14,6 @@ import tjson.TJSON as Json;
 
 import backend.Song;
 import backend.Section;
-import states.stages.objects.TankmenBG;
 
 typedef CharacterFile = {
 	var animations:Array<AnimArray>;
@@ -205,14 +204,6 @@ class Character extends FlxSprite
 				}
 			}*/
 		}
-
-		switch(curCharacter)
-		{
-			case 'pico-speaker':
-				skipDance = true;
-				loadMappedAnims();
-				playAnim("shoot1");
-		}
 	}
 
 	override function update(elapsed:Float)
@@ -330,7 +321,7 @@ class Character extends FlxSprite
 		}
 	}
 	
-	function loadMappedAnims():Void
+	/*function loadMappedAnims():Void
 	{
 		var noteData:Array<SwagSection> = Song.loadFromJson('picospeaker', Paths.formatToSongPath(PlayState.SONG.song)).notes;
 		for (section in noteData) {
@@ -340,7 +331,7 @@ class Character extends FlxSprite
 		}
 		TankmenBG.animationNotes = animationNotes;
 		animationNotes.sort(sortAnims);
-	}
+	}*/
 
 	function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int
 	{

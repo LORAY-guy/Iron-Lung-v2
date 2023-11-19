@@ -35,7 +35,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		};
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Menu Character Editor", "Editting: " + characterFile.image);
+		DiscordClient.changePresence("[REDACTED]", null);
 		#end
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
@@ -231,7 +231,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Menu Character Editor", "Editting: " + characterFile.image);
+		DiscordClient.changePresence("[REDACTED]", null);
 		#end
 	}
 

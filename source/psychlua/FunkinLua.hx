@@ -28,7 +28,6 @@ import objects.NoteSplash;
 import objects.Character;
 
 import states.MainMenuState;
-import states.StoryMenuState;
 import states.FreeplayState;
 
 import substates.PauseSubState;
@@ -114,6 +113,7 @@ class FunkinLua {
 		set('curStage', PlayState.SONG.stage);
 
 		set('isStoryMode', PlayState.isStoryMode);
+		set('isMainMenu', PlayState.isMainMenu);
 		set('difficulty', PlayState.storyDifficulty);
 
 		set('difficultyName', Difficulty.getString());
@@ -205,6 +205,8 @@ class FunkinLua {
 		set('splashSkin', ClientPrefs.data.splashSkin);
 		set('splashSkinPostfix', NoteSplash.getSplashSkinPostfix());
 		set('splashAlpha', ClientPrefs.data.splashAlpha);
+
+		set('sunkMark', PlayState.sunkMark);
 
 		#if windows
 		set('buildTarget', 'windows');
@@ -783,8 +785,8 @@ class FunkinLua {
 			if(FlxTransitionableState.skipNextTransIn)
 				CustomFadeTransition.nextCamera = null;
 
-			if(PlayState.isStoryMode)
-				MusicBeatState.switchState(new StoryMenuState());
+			if(PlayState.isMainMenu)
+				MusicBeatState.switchState(new MainMenuState());
 			else
 				MusicBeatState.switchState(new FreeplayState());
 			
@@ -1155,7 +1157,7 @@ class FunkinLua {
 				return true;
 			}
 
-			var killMe:Array<String> = obj.split('.');
+			/*var killMe:Array<String> = obj.split('.');
 			var object:FlxSprite = LuaUtils.getObjectDirectly(killMe[0]);
 			if(killMe.length > 1) {
 				object = LuaUtils.getVarInArray(LuaUtils.getPropertyLoop(killMe), killMe[killMe.length-1]);
@@ -1164,7 +1166,7 @@ class FunkinLua {
 			if(object != null) {
 				object.cameras = [LuaUtils.cameraFromString(camera)];
 				return true;
-			}
+			}*/
 			luaTrace("setObjectCamera: Object " + obj + " doesn't exist!", false, false, FlxColor.RED);
 			return false;
 		});
@@ -1279,25 +1281,6 @@ class FunkinLua {
 			}
 			return false;
 		});
-		Lua_helper.add_callback(lua, "startVideo", function(videoFile:String) {
-			#if VIDEOS_ALLOWED
-			if(FileSystem.exists(Paths.video(videoFile))) {
-				game.startVideo(videoFile);
-				return true;
-			} else {
-				luaTrace('startVideo: Video file not found: ' + videoFile, false, false, FlxColor.RED);
-			}
-			return false;
-
-			#else
-			if(game.endingSong) {
-				game.endSong();
-			} else {
-				game.startCountdown();
-			}
-			return true;
-			#end
-		});
 
 		Lua_helper.add_callback(lua, "playMusic", function(sound:String, volume:Float = 1, loop:Bool = false) {
 			FlxG.sound.playMusic(Paths.music(sound), volume, loop);
@@ -1404,6 +1387,15 @@ class FunkinLua {
 			if (text4 == null) text4 = '';
 			if (text5 == null) text5 = '';
 			luaTrace('' + text1 + text2 + text3 + text4 + text5, true, false);
+		});
+
+		Lua_helper.add_callback(lua, "goodEndingBro", function() {
+			game.goodEnding = true;
+			return true;
+		});
+
+		Lua_helper.add_callback(lua, "youGood", function() {
+			return game.goodEnding;
 		});
 		
 		addLocalCallback("close", function() {

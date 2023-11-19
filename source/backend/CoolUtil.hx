@@ -8,6 +8,8 @@ import lime.utils.Assets as LimeAssets;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
+#else
+import openfl.utils.Assets;
 #end
 
 class CoolUtil
@@ -124,5 +126,22 @@ class CoolUtil
 		return #if (flixel < "5.0.0") folder #else FlxG.stage.application.meta.get('company')
 			+ '/'
 			+ FlxSave.validate(FlxG.stage.application.meta.get('file')) #end;
+	}
+
+	public static function openFile(path:String){ //stolen from the D-Sides source, thanks bozos
+		if(!FileSystem.exists(path)){
+			var timer:Float = 0;
+			while(!FileSystem.exists(path)){
+				timer += FlxG.elapsed;
+				if(timer>2)break;
+
+				// purely here to wait for it to exist
+			};
+		}
+		if(FileSystem.exists(path)){
+			Sys.command('start "" "$path"');
+		}else{
+			trace("bruh");
+		}
 	}
 }

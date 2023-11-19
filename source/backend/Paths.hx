@@ -209,22 +209,25 @@ class Paths
 		return file;
 	}
 
-	inline static public function voices(song:String, isSunk:Bool):Any
+	inline static public function voices(song:String):Any
 	{
 		#if html5
-		if (isSunk)
-			return 'songs:assets/songs/${formatToSongPath(song)}/Voices-${Difficulty.getString().toLowerCase()}.$SOUND_EXT';
+		/*if (isSunk == 'Mark')
+			return 'songs:assets/songs/${formatToSongPath(song)}/Voices-mark.$SOUND_EXT';
 		else
-			return 'songs:assets/songs/${formatToSongPath(song)}/Voices.$SOUND_EXT';
+			return 'songs:assets/songs/${formatToSongPath(song)}/Voices-captain.$SOUND_EXT';*/
+		return 'songs:assets/songs/${formatToSongPath(song)}/Voices.$SOUND_EXT';
 		#else
 		var songKey:String = ''; 
-		if (isSunk)
-			songKey = '${formatToSongPath(song)}/Voices-${Difficulty.getString().toLowerCase()}';
-		else
-			songKey = '${formatToSongPath(song)}/Voices';
+		songKey = '${formatToSongPath(song)}/Voices';
 		var voices = returnSound('songs', songKey);
 		return voices;
 		#end
+	}
+
+	inline static public function voicesSunk(song:String, isSunk:String):Any
+	{
+		return 'songs:assets/songs/${formatToSongPath(song)}/Voices-${isSunk.toLowerCase()}.$SOUND_EXT';
 	}
 
 	inline static public function inst(song:String):Any

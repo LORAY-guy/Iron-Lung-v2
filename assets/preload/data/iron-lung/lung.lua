@@ -4,6 +4,11 @@ function onCreatePost()
     setProperty('boyfriend.flipX', false)
     setProperty('boyfriend.y', 1155)
     setProperty('boyfriend.alpha', 0)
+    setProperty("vocals.volume", 0)
+end
+
+function onSongStart()
+    setProperty("vocals.volume", 1)
 end
 
 function onStepHit()

@@ -1,7 +1,7 @@
 {
 	"song": {
 		"player1": "lixian",
-		"player2": "matpat2",
+		"player2": "matpat",
 		"events": [],
 		"notes": [
 			{
@@ -10038,7 +10038,7 @@
 				"mustHitSection": true
 			}
 		],
-		"gfVersion": "mark",
+		"gfVersion": "shaghorn",
 		"splashSkin": "",
 		"song": "sunk",
 		"stage": "sunk",
