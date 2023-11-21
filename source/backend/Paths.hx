@@ -212,10 +212,6 @@ class Paths
 	inline static public function voices(song:String):Any
 	{
 		#if html5
-		/*if (isSunk == 'Mark')
-			return 'songs:assets/songs/${formatToSongPath(song)}/Voices-mark.$SOUND_EXT';
-		else
-			return 'songs:assets/songs/${formatToSongPath(song)}/Voices-captain.$SOUND_EXT';*/
 		return 'songs:assets/songs/${formatToSongPath(song)}/Voices.$SOUND_EXT';
 		#else
 		var songKey:String = ''; 

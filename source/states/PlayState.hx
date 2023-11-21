@@ -11,7 +11,6 @@ package states;
 // "function triggerEvent" - Called when the song hits your event's timestamp, this is probably what you were looking for
 
 import psychlua.ModchartSprite;
-import backend.Achievements;
 import backend.Highscore;
 import backend.StageData;
 import backend.WeekData;
@@ -226,9 +225,9 @@ class PlayState extends MusicBeatState
 	#end
 
 	//Achievement shit
-	var keysPressed:Array<Int> = [];
+	/*var keysPressed:Array<Int> = [];
 	var boyfriendIdleTime:Float = 0.0;
-	var boyfriendIdled:Bool = false;
+	var boyfriendIdled:Bool = false;*/
 
 	// Lua shit
 	public static var instance:PlayState;
@@ -1540,14 +1539,6 @@ class PlayState extends MusicBeatState
 		FlxG.camera.followLerp = 0;
 		if(!inCutscene && !paused) {
 			FlxG.camera.followLerp = FlxMath.bound(elapsed * 2.4 * cameraSpeed * playbackRate / (FlxG.updateFramerate / 60), 0, 1);
-			if(!startingSong && !endingSong && boyfriend.animation.curAnim != null && boyfriend.animation.curAnim.name.startsWith('idle')) {
-				boyfriendIdleTime += elapsed;
-				if(boyfriendIdleTime >= 0.15) { // Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
-					boyfriendIdled = true;
-				}
-			} else {
-				boyfriendIdleTime = 0;
-			}
 		}
 
 		super.update(elapsed);
@@ -2250,8 +2241,10 @@ class PlayState extends MusicBeatState
 				}
 				else if (SONG.song.toLowerCase() == 'sunk')
 				{
+					#if sys
 					var path = "assets/data/specialThanks.txt";
-					CoolUtil.openFile(path);
+					CoolUtil.openFile(path); 
+					#end
 
 					#if desktop DiscordClient.resetClientID(); #end
 					cancelMusicFadeTween();
@@ -2571,13 +2564,6 @@ class PlayState extends MusicBeatState
 					callOnLuas('onGhostTap', [key]);
 					if (canMiss && !boyfriend.stunned) noteMissPress(key);
 				}
-
-				// I dunno what you need this for but here you go
-				//									- Shubs
-
-				// Shubs, this is for the "Just the Two of Us" achievement lol
-				//									- Shadow Mario
-				if(!keysPressed.contains(key)) keysPressed.push(key);
 
 				//more accurate hit time for the ratings? part 2 (Now that the calculations are done, go back to the time it was before for not causing a note stutter)
 				Conductor.songPosition = lastTime;

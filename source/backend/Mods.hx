@@ -216,7 +216,7 @@ class Mods
 		}
 		//trace(fileStr);
 
-		File.saveContent('modsList.txt', fileStr);
+		//File.saveContent('modsList.txt', fileStr);
 		updatedOnState = true;
 		//trace('Saved modsList.txt');
 		#end

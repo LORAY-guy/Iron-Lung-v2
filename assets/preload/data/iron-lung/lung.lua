@@ -1,6 +1,7 @@
 function onCreatePost()
     setProperty('dad.visible', false)
     setProperty('iconP2.visible', false)
+    setProperty('iconP1.alpha', 0)
     setProperty('boyfriend.flipX', false)
     setProperty('boyfriend.y', 1155)
     setProperty('boyfriend.alpha', 0)
@@ -23,6 +24,7 @@ function onStepHit()
             noteTweenX('5X', 5, defaultPlayerStrumX1 - 320, 4, 'quadInOut')
             noteTweenX('6X', 6, defaultPlayerStrumX2 - 320, 4, 'quadInOut')
             noteTweenX('7X', 7, defaultPlayerStrumX3 - 320, 4, 'quadInOut')
+            doTweenAlpha('iconP1In', 'iconP1', 1, 4, 'quadInOut')
     
             for i = 4,7 do
                 noteTweenAngle(i..'Angle', i, 360, 4, 'quadInOut')
