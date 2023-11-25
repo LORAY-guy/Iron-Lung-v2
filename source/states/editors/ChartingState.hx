@@ -198,18 +198,18 @@ class ChartingState extends MusicBeatState
 		{
 			Difficulty.resetList();
 			_song = {
-				song: 'Test',
+				song: 'Iron-Lung',
 				notes: [],
 				events: [],
-				bpm: 150.0,
+				bpm: 180.0,
 				needsVoices: true,
 				arrowSkin: '',
 				splashSkin: '', //idk it would crash if i didn't
-				player1: 'bf',
-				player2: 'dad',
-				gfVersion: 'gf',
-				speed: 1,
-				stage: 'stage'
+				player1: 'mark',
+				player2: 'mark',
+				gfVersion: 'mark',
+				speed: 3,
+				stage: 'lung'
 			};
 			addSection();
 			PlayState.SONG = _song;

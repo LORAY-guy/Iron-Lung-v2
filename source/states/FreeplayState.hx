@@ -53,9 +53,8 @@ class FreeplayState extends MusicBeatState
 		//Paths.clearUnusedMemory();
 		
 		persistentUpdate = true;
-		PlayState.isStoryMode = false;
 		PlayState.isMainMenu = false;
-		WeekData.reloadWeekFiles(false);
+		WeekData.reloadWeekFiles();
 
 		#if desktop
 		// Updating Discord Rich Presence
@@ -350,7 +349,6 @@ class FreeplayState extends MusicBeatState
 			try
 			{
 				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
-				PlayState.isStoryMode = false;
 				PlayState.isMainMenu = false;
 				PlayState.storyDifficulty = curDifficulty;
 				if (songs[curSelected].songName.toLowerCase() == 'sunk') {

@@ -5,17 +5,28 @@ import objects.Character;
 class GraphicsSettingsSubState extends BaseOptionsMenu
 {
 	var antialiasingOption:Int;
-	var boyfriend:Character = null;
+	var boyfriend:FlxSprite;
 	public function new()
 	{
 		title = 'Graphics';
 		rpcTitle = 'Graphics Settings Menu'; //for Discord Rich Presence
 
-		boyfriend = new Character(535, 0, 'mark', false);
-		boyfriend.setGraphicSize(Std.int(boyfriend.width * 0.725));
+		/*boyfriend = new Character(110, -400, 'mark', false);
+		boyfriend.setGraphicSize(Std.int(boyfriend.width * 0.55));
 		boyfriend.updateHitbox();
-		boyfriend.playAnim('scared', false, false, 0);
+		boyfriend.playAnim('Idle', false, false, 0);
 		boyfriend.animation.finishCallback = function (name:String) boyfriend.dance();
+		boyfriend.flipX = true;
+		boyfriend.visible = false;*/
+
+		boyfriend = new FlxSprite(490, -40);
+		boyfriend.frames = Paths.getSparrowAtlas('mainmenu/mark_menu');
+		boyfriend.animation.addByPrefix('idle', "Idle", 24);
+		boyfriend.animation.play('idle');
+		boyfriend.setGraphicSize(Std.int(boyfriend.width * 0.55));
+		boyfriend.updateHitbox();
+		boyfriend.animation.finishCallback = function (name:String) boyfriend.animation.play('idle');
+		boyfriend.flipX = true;
 		boyfriend.visible = false;
 
 		//I'd suggest using "Low Quality" as an example for making your own option since it is the simplest here

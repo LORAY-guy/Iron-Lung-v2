@@ -6,8 +6,9 @@ class HealthIcon extends FlxSprite
 	private var isOldIcon:Bool = false;
 	private var isPlayer:Bool = false;
 	private var char:String = '';
+	public var isCool:Bool = true;
 
-	public function new(char:String = 'bf', isPlayer:Bool = false, ?allowGPU:Bool = true)
+	public function new(char:String = 'bf', isPlayer:Bool = false, ?allowGPU:Bool = true, ?isCool:Bool = true)
 	{
 		super();
 		isOldIcon = (char == 'bf-old');
@@ -33,12 +34,25 @@ class HealthIcon extends FlxSprite
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face'; //Prevents crash from missing icon
 			
 			var graphic = Paths.image(name, allowGPU);
-			loadGraphic(graphic, true, Math.floor(graphic.width / 2), Math.floor(graphic.height));
-			iconOffsets[0] = (width - 150) / 2;
-			iconOffsets[1] = (height - 150) / 2;
-			updateHitbox();
-
-			animation.add(char, [0, 1], 0, false, isPlayer);
+			loadGraphic(graphic); //Load stupidly first for getting the file size
+			if (graphic.width >= 450)
+				{
+					this.isCool = true;
+					loadGraphic(graphic, true, Math.floor(width / 3), Math.floor(height)); //Then load it fr
+					iconOffsets[0] = (width - 150) / 3;
+					iconOffsets[1] = (width - 150) / 3;
+					iconOffsets[2] = (width - 150) / 3;
+					updateHitbox();
+					animation.add(char, [0, 1, 2], 0, false, isPlayer);
+				} else {
+					this.isCool = false;
+					loadGraphic(graphic, true, Math.floor(width / 2), Math.floor(height)); //Then load it fr
+					iconOffsets[0] = (width - 150) / 2;
+					iconOffsets[1] = (width - 150) / 2;
+					updateHitbox();
+					animation.add(char, [0, 1], 0, false, isPlayer);
+				}
+				
 			animation.play(char);
 			this.char = char;
 

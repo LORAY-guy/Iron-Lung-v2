@@ -25,7 +25,6 @@ class BaseStage extends FlxBasic
 	// some variables for convenience
 	public var paused(get, never):Bool;
 	public var songName(get, never):String;
-	public var isStoryMode(get, never):Bool;
 	public var isMainMenu(get, never):Bool;
 	public var seenCutscene(get, never):Bool;
 	public var inCutscene(get, set):Bool;
@@ -145,7 +144,6 @@ class BaseStage extends FlxBasic
 	function moveCamera(isDad:Bool) if(onPlayState) moveCamera(isDad);
 	inline private function get_paused() return game.paused;
 	inline private function get_songName() return game.songName;
-	inline private function get_isStoryMode() return PlayState.isStoryMode;
 	inline private function get_isMainMenu() return PlayState.isMainMenu;
 	inline private function get_seenCutscene() return PlayState.seenCutscene;
 	inline private function get_inCutscene() return game.inCutscene;

@@ -92,12 +92,12 @@ class CharacterEditorState extends MusicBeatState
 
 		changeBGbutton = new FlxButton(FlxG.width - 360, 25, "", function()
 		{
-			onPixelBG = !onPixelBG;
+			onSunk = !onSunk;
 			reloadBGs();
 		});
 		changeBGbutton.cameras = [camMenu];
 
-		loadChar(!daAnim.startsWith('bf'), false);
+		loadChar(!daAnim.startsWith('mark'), false);
 
 		healthBar = new HealthBar(30, FlxG.height - 75);
 		healthBar.scrollFactor.set();
@@ -189,7 +189,7 @@ class CharacterEditorState extends MusicBeatState
 		super.create();
 	}
 
-	var onPixelBG:Bool = false;
+	var onSunk:Bool = false;
 	var OFFSET_X:Float = 300;
 	function reloadBGs() {
 		bgLayer.forEachAlive(function(spr:FlxSprite) spr.destroy());
@@ -198,57 +198,49 @@ class CharacterEditorState extends MusicBeatState
 		var playerXDifference = 0;
 		if(char.isPlayer) playerXDifference = 670;
 
-		if(onPixelBG) {
-			var playerYDifference:Float = 0;
-			if(char.isPlayer) {
-				playerXDifference += 200;
-				playerYDifference = 220;
-			}
-
-			Paths.setCurrentLevel('week6');
-			var bgSky:BGSprite = new BGSprite('weeb/weebSky', OFFSET_X - (playerXDifference / 2) - 300, 0 - playerYDifference, 0.1, 0.1);
-			bgLayer.add(bgSky);
-			bgSky.antialiasing = false;
-
-			var repositionShit = -200 + OFFSET_X - playerXDifference;
-
-			var bgSchool:BGSprite = new BGSprite('weeb/weebSchool', repositionShit, -playerYDifference + 6, 0.6, 0.90);
-			bgLayer.add(bgSchool);
-			bgSchool.antialiasing = false;
-
-			var bgStreet:BGSprite = new BGSprite('weeb/weebStreet', repositionShit, -playerYDifference, 0.95, 0.95);
-			bgLayer.add(bgStreet);
-			bgStreet.antialiasing = false;
-
-			var widShit = Std.int(bgSky.width * 6);
-			var bgTrees:FlxSprite = new FlxSprite(repositionShit - 380, -800 - playerYDifference);
-			bgTrees.frames = Paths.getPackerAtlas('weeb/weebTrees');
-			bgTrees.animation.add('treeLoop', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], 12);
-			bgTrees.animation.play('treeLoop');
-			bgTrees.scrollFactor.set(0.85, 0.85);
-			bgLayer.add(bgTrees);
-			bgTrees.antialiasing = false;
-
-			bgSky.setGraphicSize(widShit);
-			bgSchool.setGraphicSize(widShit);
-			bgStreet.setGraphicSize(widShit);
-			bgTrees.setGraphicSize(Std.int(widShit * 1.4));
-
-			bgSky.updateHitbox();
-			bgSchool.updateHitbox();
-			bgStreet.updateHitbox();
-			bgTrees.updateHitbox();
-			changeBGbutton.text = "Regular BG";
-		} else {
-			Paths.setCurrentLevel('week1');
-			var bg:BGSprite = new BGSprite('stageback', -600 + OFFSET_X - playerXDifference, -300, 0.9, 0.9);
+		if(onSunk) {
+			var bg:BGSprite = new BGSprite('sinking', -200 + OFFSET_X - playerXDifference, -400, 0.9, 0.9);
 			bgLayer.add(bg);
 
-			var stageFront:BGSprite = new BGSprite('stagefront', -650 + OFFSET_X - playerXDifference, 500, 0.9, 0.9);
-			stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
-			stageFront.updateHitbox();
-			bgLayer.add(stageFront);
-			changeBGbutton.text = "Pixel BG";
+			bgLayer.forEachAlive(function(spr:FlxSprite) spr.setGraphicSize(Std.int(spr.width * 1.6)));
+			changeBGbutton.text = "Iron Lung";
+		} else {
+			var frontdoor:BGSprite = new BGSprite('lung/doorthingy', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(frontdoor);
+	
+			var bg:BGSprite = new BGSprite('lung/ironlung', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(bg);
+	
+			var tubes:BGSprite = new BGSprite('lung/tubes', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(tubes);
+	
+			var table:BGSprite = new BGSprite('lung/table', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(table);
+	
+			var depth:BGSprite = new BGSprite('lung/depth', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(depth);
+	
+			var depthmeter:BGSprite = new BGSprite('lung/meter', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(depthmeter);
+	
+			var oxygenmeter:BGSprite = new BGSprite('lung/oxygenmeter', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(oxygenmeter);
+	
+			var curoxygen:BGSprite = new BGSprite('lung/oxygen1', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(curoxygen);
+	
+			var lamp:BGSprite = new BGSprite('lung/lamp', 0 + OFFSET_X - playerXDifference, -380, 1, 1);
+			bgLayer.add(lamp);
+
+			var light:BGSprite = new BGSprite('lung/light', -35 + OFFSET_X - playerXDifference, -400, 1, 1);
+			light.setGraphicSize(Std.int(light.width * 1.2));
+			bgLayer.add(light);
+	
+			var vignette:BGSprite = new BGSprite('lung/vignette', 0 + OFFSET_X - playerXDifference, -400, 1, 1);
+			bgLayer.add(vignette);
+
+			bgLayer.forEachAlive(function(spr:FlxSprite) spr.setGraphicSize(Std.int(spr.width * 1.6)));
+			changeBGbutton.text = "Sunk";
 		}
 	}
 
@@ -396,7 +388,7 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.name = "Settings";
 
 		var check_player = new FlxUICheckBox(10, 60, null, null, "Playable Character", 100);
-		check_player.checked = daAnim.startsWith('bf');
+		check_player.checked = daAnim.startsWith('mark');
 		check_player.callback = function()
 		{
 			char.isPlayer = !char.isPlayer;
@@ -409,7 +401,7 @@ class CharacterEditorState extends MusicBeatState
 		charDropDown = new FlxUIDropDownMenu(10, 30, FlxUIDropDownMenu.makeStrIdLabelArray([''], true), function(character:String)
 		{
 			daAnim = characterList[Std.parseInt(character)];
-			check_player.checked = daAnim.startsWith('bf');
+			check_player.checked = daAnim.startsWith('mark');
 			loadChar(!check_player.checked);
 			updatePresence();
 			reloadCharacterDropDown();
@@ -492,7 +484,7 @@ class CharacterEditorState extends MusicBeatState
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Character";
 
-		imageInputText = new FlxUIInputText(15, 30, 200, 'characters/BOYFRIEND', 8);
+		imageInputText = new FlxUIInputText(15, 30, 200, 'characters/mark', 8);
 		var reloadImage:FlxButton = new FlxButton(imageInputText.x + 210, imageInputText.y - 3, "Reload Image", function()
 		{
 			char.imageFile = imageInputText.text;
@@ -839,7 +831,7 @@ class CharacterEditorState extends MusicBeatState
 				}
 			}
 		} else {
-			char.quickAnimAdd('idle', 'BF idle dance');
+			char.quickAnimAdd('idle', 'idle');
 		}
 
 		if(lastAnim != '') {

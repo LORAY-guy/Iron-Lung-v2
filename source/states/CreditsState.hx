@@ -45,10 +45,10 @@ class CreditsState extends MusicBeatState
 
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Iron Lung Mod Team'],
-			['Shaggers',			'Shaggers',			'Lead Director/Composer/Coder',									'https://www.youtube.com/@Shaggers',	'00FF55'],
-			['ral',					'ral',				'Iron Lung BG/Mark Sprites',									'https://www.twitter.com/@ItterRal',	'CCCCCC'],
+			['Shaggers',			'Shaggers',			'Lead Director/Composer/Coder/Animator/Lixian\'s Sprites',				'https://www.youtube.com/@Shaggers',	'00FF55'],
 			['Crafted',				'crafted',			'Sunk stage/Fixed some assets',									'https://www.youtube.com/channel/UCVEEHq2dD8mL60T53alzjuA',		'C9C5C5'],
-			['Whitey',				'whitey',			'OST Art',														'https://twitter.com/Whitemungus',		'BBBBBB'],
+			['Whitey',				'whitey',			'Sprites/OST Art',												'https://twitter.com/Whitemungus',		'BBBBBB'],
+			['ral',					'ral',				'Iron Lung BG',									                'https://www.twitter.com/@ItterRal',	'CCCCCC'],
 			[''],
 			['Original Iron Lung by'],
 			['David Szymanski',		'David',			'Made the Iron Lung game',										'https://store.steampowered.com/app/1846170/Iron_Lung',	'000033'],

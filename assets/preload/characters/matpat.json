@@ -2,19 +2,8 @@
 	"animations": [
 		{
 			"offsets": [
-				-3,
-				-118
-			],
-			"loop": false,
-			"fps": 24,
-			"anim": "singLEFT",
-			"indices": [],
-			"name": "Left"
-		},
-		{
-			"offsets": [
-				-11,
-				-121
+				15,
+				-47
 			],
 			"loop": false,
 			"fps": 24,
@@ -24,19 +13,8 @@
 		},
 		{
 			"offsets": [
-				70,
-				-170
-			],
-			"loop": false,
-			"fps": 24,
-			"anim": "singRIGHT",
-			"indices": [],
-			"name": "Right"
-		},
-		{
-			"offsets": [
-				-55,
-				-30
+				14,
+				0
 			],
 			"loop": false,
 			"fps": 24,
@@ -54,13 +32,35 @@
 			"anim": "idle",
 			"indices": [],
 			"name": "Idle"
+		},
+		{
+			"offsets": [
+				53,
+				42
+			],
+			"indices": [],
+			"fps": 24,
+			"anim": "singLEFT",
+			"loop": false,
+			"name": "Right"
+		},
+		{
+			"offsets": [
+				57,
+				12
+			],
+			"indices": [],
+			"fps": 24,
+			"anim": "singRIGHT",
+			"loop": false,
+			"name": "Left"
 		}
 	],
 	"no_antialiasing": false,
 	"image": "characters/matpat_iron_lung",
 	"position": [
-		-370,
-		-370
+		-660,
+		-440
 	],
 	"healthicon": "mat",
 	"flip_x": true,
@@ -70,9 +70,9 @@
 		129
 	],
 	"camera_position": [
-		20,
-		320
+		390,
+		310
 	],
 	"sing_duration": 6.1,
-	"scale": 0.5
+	"scale": 0.6
 }

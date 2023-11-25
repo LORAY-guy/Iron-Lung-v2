@@ -111,8 +111,7 @@ class FunkinLua {
 		set('songPath', Paths.formatToSongPath(PlayState.SONG.song));
 		set('startedCountdown', false);
 		set('curStage', PlayState.SONG.stage);
-
-		set('isStoryMode', PlayState.isStoryMode);
+		
 		set('isMainMenu', PlayState.isMainMenu);
 		set('difficulty', PlayState.storyDifficulty);
 

@@ -41,6 +41,8 @@ class OptionsState extends MusicBeatState
 		bg.color = 0xFFea71fd;
 		bg.updateHitbox();
 
+		Paths.image('characters/mark', null, true);
+
 		bg.screenCenter();
 		add(bg);
 

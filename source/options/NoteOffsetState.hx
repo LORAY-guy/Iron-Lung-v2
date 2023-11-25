@@ -9,7 +9,7 @@ import flixel.addons.display.shapes.FlxShapeCircle;
 
 class NoteOffsetState extends MusicBeatState
 {
-	var boyfriend:Character;
+	var boyfriend:FlxSprite;
 
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
@@ -99,7 +99,15 @@ class NoteOffsetState extends MusicBeatState
 		add(lamp);
 
 		// Characters
-		boyfriend = new Character(1150, 755, 'mark', false);
+		/*boyfriend = new Character(1150, 755, 'mark', false);
+		add(boyfriend);*/
+
+		boyfriend = new FlxSprite(1070, 540);
+		boyfriend.frames = Paths.getSparrowAtlas('mainmenu/mark_menu');
+		boyfriend.animation.addByPrefix('idle', "Idle", 24);
+		boyfriend.animation.play('idle');
+		boyfriend.setGraphicSize(Std.int(boyfriend.width * 0.65));
+		boyfriend.updateHitbox();
 		add(boyfriend);
 
 		//Post-Stage stuff
@@ -154,7 +162,7 @@ class NoteOffsetState extends MusicBeatState
 
 		// Note delay stuff
 		beatText = new Alphabet(0, 0, 'Beat Hit!', true);
-		beatText.x += 1525;
+		beatText.x += 1534;
 		beatText.setScale(0.6, 0.6);
 		beatText.alpha = 0;
 		beatText.acceleration.y = 250;
@@ -470,7 +478,7 @@ class NoteOffsetState extends MusicBeatState
 			return;
 
 		if(curBeat % 2 == 0)
-			boyfriend.dance();
+			boyfriend.animation.play('idle');
 		
 		if(curBeat % 4 == 0)
 		{

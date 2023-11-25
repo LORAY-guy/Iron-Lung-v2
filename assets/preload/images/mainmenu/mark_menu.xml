@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="mark_menu.png">
+	<!-- Created with Adobe Animate version 22.0.8.217 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Idle0000" x="0" y="0" width="1718" height="1703"/>
+	<SubTexture name="Idle0001" x="0" y="0" width="1718" height="1703"/>
+	<SubTexture name="Idle0002" x="1718" y="0" width="1666" height="1691" frameX="-28" frameY="-6" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0003" x="1718" y="0" width="1666" height="1691" frameX="-28" frameY="-6" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0004" x="0" y="1703" width="1640" height="1681" frameX="-42" frameY="-12" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0005" x="0" y="1703" width="1640" height="1681" frameX="-42" frameY="-12" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0006" x="1640" y="1703" width="1619" height="1662" frameX="-63" frameY="-27" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0007" x="1640" y="1703" width="1619" height="1662" frameX="-63" frameY="-27" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0008" x="1640" y="1703" width="1619" height="1662" frameX="-63" frameY="-27" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0009" x="1640" y="1703" width="1619" height="1662" frameX="-63" frameY="-27" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0010" x="1640" y="1703" width="1619" height="1662" frameX="-63" frameY="-27" frameWidth="1718" frameHeight="1703"/>
+	<SubTexture name="Idle0011" x="1640" y="1703" width="1619" height="1662" frameX="-63" frameY="-27" frameWidth="1718" frameHeight="1703"/>
+</TextureAtlas>

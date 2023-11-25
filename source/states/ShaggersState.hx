@@ -45,12 +45,6 @@ class ShaggersState extends MusicBeatState
         add(bg);
         bg.screenCenter();
 
-        var grid:FlxBackdrop = new FlxBackdrop(Paths.image('shaggers/grid'));
-		grid.scrollFactor.set(0, 0);
-		grid.velocity.set(40, 40);
-		grid.alpha = 0.5;
-		add(grid);
-
         menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 

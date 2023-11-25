@@ -3,19 +3,14 @@ function onCreatePost()
     setProperty('iconP2.visible', false)
     setProperty('iconP1.alpha', 0)
     setProperty('boyfriend.flipX', false)
-    setProperty('boyfriend.y', 1155)
+    setProperty('boyfriend.y', 850)
     setProperty('boyfriend.alpha', 0)
-    setProperty("vocals.volume", 0)
-end
-
-function onSongStart()
-    setProperty("vocals.volume", 1)
 end
 
 function onStepHit()
     if curStep == 64 then
-        doTweenY('boyfriendUp', 'boyfriend', 755, 4, 'quadInOut')
-        doTweenAlpha('boyfriendAlphaIn', 'boyfriend', 1, 4, 'quadInOut')
+        doTweenY('boyfriendUp', 'boyfriend', 350, 6, 'quadInOut')
+        doTweenAlpha('boyfriendAlphaIn', 'boyfriend', 1, 6, 'quadInOut')
     end
 
     if curStep == 72 then
