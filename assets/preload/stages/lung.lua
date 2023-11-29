@@ -85,15 +85,15 @@ function onCreate()
 		addLuaSprite('steam2', false)
 	end
 
-	makeLuaSprite('monsta','lung/monsta', 1160, 590)
-	scaleObject('monsta', 4, 4)
+	makeLuaSprite('monsta','lung/monsta', 1240, 420)
+	scaleObject('monsta', 0.5, 0.5)
 	setProperty('monsta.visible', false)
 	addLuaSprite('monsta', false)
 
-	makeAnimatedLuaSprite('splash', 'lung/splash', 1210, 540)
+	makeAnimatedLuaSprite('splash', 'lung/splash', 1120, 470)
 	addAnimationByPrefix('splash', 'splash', 'Splash', 24, false)
 	objectPlayAnimation('splash', 'splash', false)
-	scaleObject('splash', 3, 3)
+	scaleObject('splash', 3.75, 3.75)
 	addLuaSprite('splash', false)
 	
 	makeLuaSprite('lamp','lung/lamp', 775, 375)
@@ -294,7 +294,7 @@ function onUpdatePost(elapsed)
 		noteCount = getProperty('notes.length')
 		for i = 0, noteCount-1 do
 			noteType = getPropertyFromGroup('notes', i, 'noteType')
-			if (not goodEnd and noteType == 'goodEnding') or (goodEnd and noteType == 'badEnding') then
+			if (not goodEnd and noteType == 'goodEnding') or (goodEnd and (noteType == 'badEnding' or noteType == 'No Animation' or noteType == 'Alt Animation')) then
 				removeFromGroup('notes', i)
 			end
 		end
@@ -449,13 +449,17 @@ function onStepHit()
 		setProperty('static.visible', false)
 		cancelTween('340')
 		if not goodEnd then
+			setHealth(0.1) --to make the icon go scawy
+			--characterDance("boyfriend")
 		    setProperty('monsta.visible', true)
 			objectPlayAnimation('splash', 'splash', false)
-			doTweenX('bigMonstaX', 'monsta.scale', 5, 0.7, 'linear')
-			doTweenY('bigMonstaY', 'monsta.scale', 5, 0.7, 'linear')
+			doTweenX('bigMonstaX', 'monsta.scale', 0.75, 0.7, 'linear')
+			doTweenY('bigMonstaY', 'monsta.scale', 0.75, 0.7, 'linear')
 			doTweenY('movingIllusion', 'monsta', getProperty('monsta.y') + 60, 0.7, 'linear')
 			playSound('jumpscare', 1, 'jumpscare')
 			cameraShake('camGame', 0.025, 0.7)
+			cameraShake('camHUD', 0.0125, 0.7)
+			cameraShake('camLung', 0.0125, 0.7)
 			runTimer('pre-ending', 0.7)
 			textsEnding = {'A huge beast destroyed your ship.', 'You haven\'t taken all the required photographies.', 'Somewhere in the void, there must be hope...'}
 		else
@@ -672,7 +676,11 @@ function noteMiss(membersIndex, noteData, noteType, isSustainNote)
 end
 
 function goodNoteHit(membersIndex, noteData, noteType, isSustainNote)
-	if noteType == 'goodEnding' or noteType == 'badEnding' then
+	if noteType == 'goodEnding' then
+		setSoundVolume("endingSound", 1.0)
+	end
+
+	if noteType == 'badEnding'then
 		setSoundVolume("endingSound", 1.0)
 	end
 end

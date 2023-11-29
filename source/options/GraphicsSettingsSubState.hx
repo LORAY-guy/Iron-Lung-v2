@@ -20,7 +20,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		boyfriend.visible = false;*/
 
 		boyfriend = new FlxSprite(490, -40);
-		boyfriend.frames = Paths.getSparrowAtlas('mainmenu/mark_menu');
+		boyfriend.frames = Paths.getSparrowAtlas('mainmenu/mark_menu_antialiasing');
 		boyfriend.animation.addByPrefix('idle', "Idle", 24);
 		boyfriend.animation.play('idle');
 		boyfriend.setGraphicSize(Std.int(boyfriend.width * 0.55));

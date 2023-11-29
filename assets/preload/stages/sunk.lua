@@ -1,3 +1,5 @@
+playing = false
+
 function onCreate()
 	makeLuaSprite('bg', 'sinking', -750, -470)
 	scaleObject('bg', 1.2, 1.2, true)
@@ -7,28 +9,35 @@ function onCreate()
 		precacheImage('characters/mark-webcam')
 		makeAnimationList()
 
-		makeLuaSprite('markbg', 'office', 730, -550)
+		makeLuaSprite('markbg', 'office', 730, -350)
 		setProperty('markbg.flipX', true)
 		setObjectCamera('markbg', 'camHUD')
 		scaleObject('markbg', 0.55, 0.45, true)
 		addLuaSprite('markbg', false)
 
-		makeAnimatedLuaSprite('mark', 'characters/mark-webcam', 750, -550)
+		makeAnimatedLuaSprite('mark', 'characters/mark-webcam', 151, -1033)
 		addAnimationByPrefix('mark', 'idle', 'Idle', 24, false)
-		addOffset('mark', 'idle', 0, 260)
+		addOffset('mark', 'idle', 0, 0)
+		addAnimationByPrefix('mark', 'idle-alt', 'altIdle', 24, false)
+		addOffset('mark', 'idle-alt', -15, -5)
 		addAnimationByPrefix('mark', 'singRIGHT', 'Right', 24, false)
-		addOffset('mark', 'singRIGHT', -41.0, 255.0)
+		addOffset('mark', 'singRIGHT', 1, 9)
 		addAnimationByPrefix('mark', 'singDOWN', 'Down', 24, false)
-		addOffset('mark', 'singDOWN', 65.0, 174.0)
+		addOffset('mark', 'singDOWN', -7, -11)
 		addAnimationByPrefix('mark', 'singUP', 'Up', 24, false)
-		addOffset('mark', 'singUP', -30.0, 271.0)
+		addOffset('mark', 'singUP', -16, 9)
 		addAnimationByPrefix('mark', 'singLEFT', 'Left', 24, false)
-		addOffset('mark', 'singLEFT', 39.0, 265.0)
+		addOffset('mark', 'singLEFT', -1, 3)
 		setObjectCamera('mark', 'camHUD')
 		playAnim('mark', 'idle', false, false, 0)
 		setObjectOrder('mark', getObjectOrder("markbg") + 1)
-		scaleObject('mark', 0.6, 0.6, true)
+		scaleObject('mark', 0.275, 0.275, true)
 		addLuaSprite('mark', false)
+
+		makeLuaSprite('markbgOVERLAY', 'office-overlay', 730, -350)
+		setObjectCamera('markbgOVERLAY', 'camHUD')
+		scaleObject('markbgOVERLAY', 0.55, 0.45, true)
+		addLuaSprite('markbgOVERLAY', false)
 	end
 
 	makeLuaSprite('end', '', 0, 0)
@@ -75,6 +84,7 @@ function goodNoteHit(id, direction, noteType, isSustainNote)
 		end	
 		characterToPlay = 'mark'
 		animToPlay = noteDatas.mark
+		playing = true
         runTimer('resetAnim', 0.5)
 			
 		playAnimation(characterToPlay, animToPlay, true)
@@ -117,7 +127,7 @@ function onStepHit()
 end
 
 function onBeatHit()
-	if curBeat % 4 == 0 then
+	if curBeat % 4 == 0 and playing == false then
 		playAnim('mark', 'idle', false, false, 0)
 	end
 end
@@ -131,7 +141,8 @@ function markTransitionStart()
 	end
 	rotationAnim()
 	doTweenY('markBgComeDown', 'markbg', 0, 0.75, 'bounceOut')
-	doTweenY('markComeDown', 'mark', 111, 0.75, 'bounceOut')
+	doTweenY('markBgOVERLAYComeDown', 'markbgOVERLAY', 0, 0.75, 'bounceOut')
+	doTweenY('markComeDown', 'mark', -687, 0.75, 'bounceOut')
 	doTweenX('timeBarGoLeft', 'timeBar', getProperty('timeBar.x') - 326, 0.75, 'bounceOut')
 	doTweenX('timeTxtGoLeft', 'timeTxt', getProperty('timeTxt.x') - 326, 0.75, 'bounceOut')
 	playAnim('boyfriend', 'scared', false, false, 0)
@@ -148,7 +159,8 @@ function markTransitionEnd()
 	end
 	rotationAnim()
 	doTweenY('markBgComeDown', 'markbg', -550, 0.75, 'bounceOut')
-	doTweenY('markComeDown', 'mark', -550, 0.75, 'bounceOut')
+	doTweenY('markBgOVERLAYComeDown', 'markbgOVERLAY', -550, 0.75, 'bounceOut')
+	doTweenY('markComeDown', 'mark', -1237, 0.75, 'bounceOut')
 	doTweenX('timeBarGoLeft', 'timeBar', getProperty('timeBar.x') + 326, 0.75, 'bounceOut')
 	doTweenX('timeTxtGoLeft', 'timeTxt', getProperty('timeTxt.x') + 326, 0.75, 'bounceOut')
 	playAnim('boyfriend', 'scared', false, false, 0)
@@ -161,9 +173,11 @@ function markTransitionAltStart()
 	for i = 0,3 do
 		noteTweenY(i..'Y', i, 345, 0.75, 'bounceOut')
 	end
-	switchOffset()
+	--switchOffset()
+	setProperty("mark.x", -574)
 	doTweenY('markBgComeDown', 'markbg', 0, 0.75, 'bounceOut')
-	doTweenY('markComeDown', 'mark', 111, 0.75, 'bounceOut')
+	doTweenY('markBgOVERLAYComeDown', 'markbgOVERLAY', 0, 0.75, 'bounceOut')
+	doTweenY('markComeDown', 'mark', -687, 0.75, 'bounceOut')
 	doTweenX('timeBarGoLeft', 'timeBar', getProperty('timeBar.x') + 322, 0.75, 'bounceOut')
 	doTweenX('timeTxtGoLeft', 'timeTxt', getProperty('timeTxt.x') + 322, 0.75, 'bounceOut')
 	doTweenY('matpatGoDown', 'dad', getProperty('dad.y') + 950, 0.75, 'bounceOut')
@@ -177,6 +191,7 @@ function onTimerCompleted(tag, loops, loopsLeft)
 
 	if tag == 'resetAnim' then
 		playAnim('mark', 'idle', false, false, 0)
+		playing = false
     end
 end
 
@@ -194,7 +209,7 @@ function rotationAnim()
 	end
 end
 
-function switchOffset()
+--[[function switchOffset()
 	removeLuaSprite("mark", true)
 	makeAnimatedLuaSprite('mark', 'characters/mark-webcam', 42, -550)
 	addAnimationByPrefix('mark', 'idle', 'Idle', 24, false)
@@ -213,4 +228,4 @@ function switchOffset()
 	scaleObject('mark', 0.6, 0.6, true)
 	setProperty('mark.flipX', true)
 	addLuaSprite('mark', false)
-end
+end--]]

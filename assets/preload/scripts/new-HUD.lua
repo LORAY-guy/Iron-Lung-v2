@@ -18,8 +18,9 @@ function onCreate()
         setProperty("pizzaIconP2.antialiasing", false)
         addLuaSprite("pizzaIconP2", false)
 
-        makeLuaSprite('shaggersSign', 'newOurpleHUD/shaggersSign', -400, 175)
+        makeLuaSprite('shaggersSign', 'newOurpleHUD/shaggersSign', -535, 160)
         setObjectCamera('shaggersSign', 'camOther')
+        scaleObject("shaggersSign", 0.7, 0.7)
         setProperty('shaggersSign.antialiasing', false)
         addLuaSprite('shaggersSign', false)
     
@@ -27,7 +28,7 @@ function onCreate()
         setObjectCamera('shag', 'camOther')
         setTextAlignment('shag', 'left')
         setTextFont('shag', 'ourple.ttf')
-        setTextSize('shag', 36)
+        setTextSize('shag', 48)
         addLuaText('shag', false)
     end
 end
@@ -69,11 +70,14 @@ function onUpdatePost(elapsed)
 end
 
 function onUpdate(elapsed)
-    setProperty('shag.x', getProperty('shaggersSign.x') + 10)
+    if luaSpriteExists("shag") then
+        setProperty('shag.x', getProperty('shaggersSign.x') + 103)
+        setProperty('shag.y', getProperty('shaggersSign.y') + 52)
+    end
 end
 
 function onTweenCompleted(tag)
-    if tag == 'songsignbye' then
+    if tag == 'shagsignbye' then
         removeLuaSprite('shaggersSign', true)
         removeLuaText('shag', true)
     end
@@ -84,7 +88,7 @@ function onTimerCompleted(tag, loops, loopsLeft)
         if string.lower(songName) ~= 'iron-lung' then
             setPropertyFromClass('flixel.FlxG', 'mouse.visible', false)
         end
-        doTweenX('shagsignbye', 'shaggersSign', -400, crochet / 200, 'quadInOut')
+        doTweenX('shagsignbye', 'shaggersSign', -535, crochet / 250, 'quadIn')
     end
 end
 
@@ -105,7 +109,7 @@ end
 function noteMiss(membersIndex, noteData, noteType, isSustainNote)
     if misses == 1 then
         for i = 1, 5 do
-            playAnim("star"..i, "static", false, false, 0)
+            playAnim("star"..i, "static", true, false, 0)
         end
     end
 end
@@ -138,7 +142,7 @@ function onRecalculateRating()
 end
 
 function showCredits()
-    doTweenX('shagsign', 'shaggersSign', 50, crochet / 500, 'quadInOut')
+    doTweenX('shagsign', 'shaggersSign', 0, crochet / 300, 'bounceOut')
     if string.lower(songName) ~= 'iron-lung' then
         setPropertyFromClass('flixel.FlxG', 'mouse.visible', true)
     end

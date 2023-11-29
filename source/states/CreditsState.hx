@@ -1,5 +1,6 @@
 package states;
 
+import flixel.math.FlxRandom;
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
@@ -22,6 +23,7 @@ class CreditsState extends MusicBeatState
 	var descBox:AttachedSprite;
 
 	var offsetThing:Float = -75;
+	var defaultList:Array<Array<String>>;
 
 	override function create()
 	{
@@ -43,9 +45,9 @@ class CreditsState extends MusicBeatState
 		for (mod in Mods.parseList().enabled) pushModCreditsToList(mod);
 		#end
 
-		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+		defaultList = [ //Name - Icon name - Description - Link - BG Color
 			['Iron Lung Mod Team'],
-			['Shaggers',			'Shaggers',			'Lead Director/Composer/Coder/Animator/Lixian\'s Sprites',				'https://www.youtube.com/@Shaggers',	'00FF55'],
+			['Shaggers',			'Shaggers',			'Lead Director/Composer/Coder/Animator/Lixian\'s Sprites',		'https://www.youtube.com/@Shaggers',	'00FF55'],
 			['Crafted',				'crafted',			'Sunk stage/Fixed some assets',									'https://www.youtube.com/channel/UCVEEHq2dD8mL60T53alzjuA',		'C9C5C5'],
 			['Whitey',				'whitey',			'Sprites/OST Art',												'https://twitter.com/Whitemungus',		'BBBBBB'],
 			['ral',					'ral',				'Iron Lung BG',									                'https://www.twitter.com/@ItterRal',	'CCCCCC'],
@@ -56,6 +58,7 @@ class CreditsState extends MusicBeatState
 			['Inspiration'],
 			['Markiplier',			'mark',				'I hope the movie will be better than the FNAF movie',			'https://www.youtube.com/@markiplier',	'F67B9A'],
 			['Lixian',				'lix',				'Made Sinking Iron, also known as "Iron Lung 2"',				'https://www.youtube.com/@lixianTV',	'FAFAFA'],
+			['Ourple Guy',			'guy',				'Songs based on that mod',										'ourpleguy.neocities.org',				'A357AB'],
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
@@ -99,7 +102,8 @@ class CreditsState extends MusicBeatState
 			if(isSelectable) {
 				var str:String = 'credits/missing_icon';
 				if (Paths.image('credits/' + creditsStuff[i][1]) != null) str = 'credits/' + creditsStuff[i][1];
-				var icon:AttachedSprite = new AttachedSprite(str);
+				var icon:AttachedSprite = new AttachedSprite(str, null, null, false, (creditsStuff[i][1] == 'guy') ? 'guy' : null);
+				if (creditsStuff[i][1] == 'guy') icon.antialiasing = false;
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
 	
@@ -131,6 +135,10 @@ class CreditsState extends MusicBeatState
 		bg.color = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
 		intendedColor = bg.color;
 		changeSelection();
+
+		Conductor.changeBPM(100);
+		persistentUpdate = true;
+
 		super.create();
 	}
 
@@ -138,6 +146,9 @@ class CreditsState extends MusicBeatState
 	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
+		if (FlxG.sound.music != null)
+			Conductor.songPosition = FlxG.sound.music.time;
+
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
@@ -211,7 +222,14 @@ class CreditsState extends MusicBeatState
 				}
 			}
 		}
+
 		super.update(elapsed);
+
+		var guyIcon:AttachedSprite = findIconByName("guy");
+
+		if (guyIcon != null) {
+			guyIcon.angle = FlxG.random.int(-5, 5);
+		}
 	}
 
 	var moveTween:FlxTween = null;
@@ -288,5 +306,43 @@ class CreditsState extends MusicBeatState
 
 	private function unselectableCheck(num:Int):Bool {
 		return creditsStuff[num].length <= 1;
+	}
+
+	function findIconByName(iconName:String):AttachedSprite {
+		for (icon in iconArray) {
+			if (icon.targetName == iconName) {
+				return icon;
+			}
+		}
+		return null;
+	}
+
+	/*var flipped:Bool = false;
+	override public function beatHit()
+	{
+		super.beatHit();
+
+		var guyIcon:AttachedSprite = findIconByName("guy");
+	
+		if (guyIcon != null) {
+			guyIcon.flipX = flipped;
+			flipped = !flipped;
+		}
+	}*/
+
+	var flipped:Bool = false;
+	override function stepHit()
+	{
+		super.stepHit();
+
+		if (curStep % 2 == 0)
+		{
+			var guyIcon:AttachedSprite = findIconByName("guy");
+	
+			if (guyIcon != null) {
+				guyIcon.flipX = flipped;
+				flipped = !flipped;
+			}
+		}
 	}
 }

@@ -1,4 +1,6 @@
 {	
+	"titlex":100,
+	"titley":-420,
 	"startx":135,
 	"starty":576,
 	"backgroundSprite":"wallpaper",

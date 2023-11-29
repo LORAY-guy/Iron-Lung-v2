@@ -21,7 +21,6 @@ function onStepHit()
 end
 
 function bubble(x, y)
-
 	local sprite = 'bubbles'..(#particles + 1)
 	
 	makeLuaSprite(sprite, 'lung/BubbleTexture', getRandomFloat(x, x + xOffset), y)
@@ -31,7 +30,7 @@ function bubble(x, y)
 	
 	setObjectOrder(sprite, getObjectOrder('frontdoor'))
 
-	if curStep >= endTime then
+	if (curStep >= endTime) or (inGameOver == true) then
 		setObjectCamera(sprite, 'camOther')
 	end
 	
@@ -45,11 +44,9 @@ function bubble(x, y)
 	setProperty(sprite..'.acceleration.y', (-120 * mult))
 
 	particles[#particles + 1] = {name = sprite, lifeTime = getRandomFloat(3, 4.5), decay = getRandomFloat(1, 0.7), scale = orScale}
-	
 end
 
 function onUpdate(elapsed)
-
 	for i, j in pairs(particles) do
 		if luaSpriteExists(particles[i].name) then
             particles[i].lifeTime = particles[i].lifeTime - elapsed
@@ -70,14 +67,7 @@ function onUpdate(elapsed)
 		end			
 	end
 
-	if (curStep < 390) or (curStep >= endTime and curStep < 2820) or (inGameOver) then
+	if (curStep < 390) or (curStep >= endTime and curStep < 2820) then
 		bubble(xPos, 1500)
 	end
-
-end
-
-function onGameOverStart()
-	xOffset = 1280
-	xPos = 0
-	mult = 2
 end

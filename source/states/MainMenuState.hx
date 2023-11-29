@@ -9,6 +9,7 @@ import flixel.effects.FlxFlicker;
 import flixel.input.keyboard.FlxKey;
 import lime.app.Application;
 import backend.Song;
+import backend.Conductor;
 
 import states.editors.MasterEditorMenu;
 import options.OptionsState;
@@ -34,6 +35,9 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
+	var selectedSomethin:Bool = false;
+	var mark:FlxSprite;
+
 	override function create()
 	{
 		#if MODS_ALLOWED
@@ -57,7 +61,7 @@ class MainMenuState extends MusicBeatState
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
-		Conductor.changeBPM(TitleState.titleJSON.bpm);
+		Conductor.changeBPM(100);
 		//trace('bpm : ' + Conductor.bpm);
 		persistentUpdate = persistentDraw = true;
 
@@ -82,8 +86,19 @@ class MainMenuState extends MusicBeatState
 		magenta.visible = false;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		
-		// magenta.scrollFactor.set();
+
+		//MARKIPLIER!!!!
+		mark = new FlxSprite(140, -360);
+		mark.scrollFactor.set(0, 0);
+		mark.scale.x = 0.5;
+		mark.scale.y = 0.5;
+		mark.flipX = true;
+		mark.frames = Paths.getSparrowAtlas('mainmenu/mark_menu');
+		mark.animation.addByPrefix('idle', "Chad", 24, false, false, false);
+		mark.animation.addByPrefix('cool', "Proud", 24, false, false, false);
+		mark.animation.play('idle', false, false, 0);
+		mark.antialiasing = ClientPrefs.data.antialiasing;
+		add(mark);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
@@ -96,16 +111,23 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 		{
 			var offset:Float = 75 - (Math.max(optionShit.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite(0, (i * 160)  + offset);
+			var menuItem:FlxSprite = new FlxSprite(100, (i * 160)  + offset);
 			menuItem.antialiasing = ClientPrefs.data.antialiasing;
-			menuItem.scale.x = scale;
-			menuItem.scale.y = scale;
+			if (i == 0)
+			{
+				menuItem.x -= 22;
+				menuItem.scale.x -= 0.025;
+				menuItem.scale.y -= 0.025;
+			} else {
+				menuItem.scale.x = scale;
+				menuItem.scale.y = scale;
+			}
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
-			menuItem.screenCenter(X);
+			//menuItem.screenCenter(X);
 			menuItems.add(menuItem);
 			var scr:Float = (optionShit.length - 4) * 0.135;
 			if(optionShit.length < 6) scr = 0;
@@ -130,8 +152,6 @@ class MainMenuState extends MusicBeatState
 		changeItem();
 		super.create();
 	}
-
-	var selectedSomethin:Bool = false;
 
 	override function update(elapsed:Float)
 	{
@@ -214,6 +234,8 @@ class MainMenuState extends MusicBeatState
 						}
 					});
 				}
+				mark.animation.play('cool', false, false, 0);
+				mark.y -= 20;
 			}
 			#if desktop
 			else if (controls.justPressed('debug_1'))
@@ -225,10 +247,11 @@ class MainMenuState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+		Conductor.songPosition = FlxG.sound.music.time;
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			spr.screenCenter(X);
+			//spr.screenCenter(X);
 		});
 	}
 
@@ -257,5 +280,16 @@ class MainMenuState extends MusicBeatState
 				spr.centerOffsets();
 			}
 		});
+	}
+
+	override public function stepHit()
+	{
+		super.stepHit();
+		
+		if (curStep % 8 == 0 && !selectedSomethin)
+		{
+			if(mark != null)
+				mark.animation.play('idle', false, false, 0);			
+		}
 	}
 }

@@ -26,6 +26,8 @@ import sys.io.File;
 
 typedef TitleData =
 {
+	titlex:Float,
+	titley:Float,
 	startx:Float,
 	starty:Float,
 	backgroundSprite:String,
@@ -144,6 +146,7 @@ class TitleState extends MusicBeatState
 		#end
 	}
 
+	var logoBl:FlxSprite;
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
 
@@ -168,9 +171,18 @@ class TitleState extends MusicBeatState
 			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		}
 
-		// bg.setGraphicSize(Std.int(bg.width * 0.6));
-		// bg.updateHitbox();
+		bg.setGraphicSize(Std.int(bg.width * (2 / 3)));
+		bg.updateHitbox();		
+		bg.screenCenter(XY);
 		add(bg);
+
+		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley).loadGraphic(Paths.image('logo'));
+		logoBl.antialiasing = ClientPrefs.data.antialiasing;
+		logoBl.updateHitbox();
+		logoBl.screenCenter(X);
+		logoBl.setGraphicSize(Std.int(logoBl.width * 0.5));
+		// logoBl.color = FlxColor.BLACK;
+		add(logoBl);
 
 		if(ClientPrefs.data.shaders) swagShader = new ColorSwap();
 
@@ -308,7 +320,7 @@ class TitleState extends MusicBeatState
 				
 				if(titleText != null) titleText.animation.play('press');
 
-				FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
+				//FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
@@ -417,14 +429,19 @@ class TitleState extends MusicBeatState
 					skipIntro();
 			}
 		}
+
+		logoBl.setGraphicSize(Std.int(logoBl.width * 0.525));
+		FlxTween.tween(logoBl, {"scale.x": 0.5, "scale.y": 0.5}, 0.5, {ease: FlxEase.cubeOut}); // I really don't wanna make the animation in Animate, dawg...
 	}
 
 	var skippedIntro:Bool = false;
-	var increaseVolume:Bool = false;
 	function skipIntro():Void
 	{
-		remove(credGroup);
-		FlxG.camera.flash(FlxColor.WHITE, 4);
-		skippedIntro = true;
+		if (!skippedIntro)
+		{
+			remove(credGroup);
+			FlxG.camera.flash(FlxColor.WHITE, 4);
+			skippedIntro = true;
+		}
 	}
 }
