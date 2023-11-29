@@ -286,7 +286,7 @@ class MainMenuState extends MusicBeatState
 	{
 		super.stepHit();
 		
-		if (curStep % 8 == 0 && !selectedSomethin)
+		if (curStep % 6 == 0 && !selectedSomethin)
 		{
 			if(mark != null)
 				mark.animation.play('idle', false, false, 0);			

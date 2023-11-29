@@ -417,15 +417,15 @@ class TitleState extends MusicBeatState
 					createCoolText([curWacky[0]]);
 				case 7:
 					addMoreText(curWacky[1]);
-				case 9:
+				case 8:
 					deleteCoolText();
-				case 10:
+				case 9:
 					addMoreText('Friday');
-				case 11:
+				case 10:
 					addMoreText('Night');
-				case 12:
+				case 11:
 					addMoreText('Funkin');
-				case 13:
+				case 12:
 					skipIntro();
 			}
 		}
