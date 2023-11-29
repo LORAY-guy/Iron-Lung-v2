@@ -2239,12 +2239,12 @@ class PlayState extends MusicBeatState
 	
 					if (goodEnding) {
 						PlayState.SONG = Song.loadFromJson('sunk-mark', 'sunk');
-						PlayState.storyDifficulty = 0;
+						PlayState.storyDifficulty = 2;
 						PlayState.sunkMark = 'Mark';
 						trace('Loading Mark');
 					} else {
 						PlayState.SONG = Song.loadFromJson('sunk-captain', 'sunk');
-						PlayState.storyDifficulty = 2;
+						PlayState.storyDifficulty = 0;
 						PlayState.sunkMark = 'Captain';
 						trace('Loading Captain');
 					}

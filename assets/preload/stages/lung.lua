@@ -670,17 +670,13 @@ function mouseOverLapsSprite(spr, cam)
 end
 
 function noteMiss(membersIndex, noteData, noteType, isSustainNote)
-	if noteType == 'goodEnding' or noteType == 'badEnding' then
+	if noteType == 'goodEnding' or noteType == 'badEnding' or noteType == 'Alt Animation' or noteType == 'No Animation' then
 		setSoundVolume("endingSound", 0.0)
 	end
 end
 
 function goodNoteHit(membersIndex, noteData, noteType, isSustainNote)
-	if noteType == 'goodEnding' then
-		setSoundVolume("endingSound", 1.0)
-	end
-
-	if noteType == 'badEnding'then
+	if noteType == 'goodEnding' or noteType == 'badEnding' or noteType == 'Alt Animation' or noteType == 'No Animation' then
 		setSoundVolume("endingSound", 1.0)
 	end
 end
