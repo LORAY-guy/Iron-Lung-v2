@@ -70,7 +70,7 @@ function onUpdatePost(elapsed)
 end
 
 function onUpdate(elapsed)
-    if luaSpriteExists("shag") then
+    if luaTextExists("shag") then
         setProperty('shag.x', getProperty('shaggersSign.x') + 103)
         setProperty('shag.y', getProperty('shaggersSign.y') + 52)
     end
