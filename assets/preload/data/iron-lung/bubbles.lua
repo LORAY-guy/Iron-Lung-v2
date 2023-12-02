@@ -47,27 +47,29 @@ function bubble(x, y)
 end
 
 function onUpdate(elapsed)
-	for i, j in pairs(particles) do
-		if luaSpriteExists(particles[i].name) then
-            particles[i].lifeTime = particles[i].lifeTime - elapsed
-			if particles[i].lifeTime <= 0 then
-				particles[i].lifeTime = 0
-				setProperty(particles[i].name..'.alpha', getProperty(particles[i].name..'.alpha') - (particles[i].decay * elapsed))
-				if getProperty(particles[i].name..'.alpha') > 0 then
-					setProperty(particles[i].name..'.scale.x', particles[i].scale * getProperty(particles[i].name..'.alpha'))
-					setProperty(particles[i].name..'.scale.y', particles[i].scale * getProperty(particles[i].name..'.alpha'))
-				end					
-			end
+	if not lowQuality then
+		if (curStep < 390) or (curStep >= endTime and curStep < 2820) then
+			bubble(xPos, 1500)
+		end
 
-				--remove the particle
-			if getProperty(particles[i].name..'.alpha') <= 0 then
-				removeLuaSprite(particles[i].name, true)
-				particles[i] = nil
-			end
-		end			
-	end
+		for i, j in pairs(particles) do
+			if luaSpriteExists(particles[i].name) then
+				particles[i].lifeTime = particles[i].lifeTime - elapsed
+				if particles[i].lifeTime <= 0 then
+					particles[i].lifeTime = 0
+					setProperty(particles[i].name..'.alpha', getProperty(particles[i].name..'.alpha') - (particles[i].decay * elapsed))
+					if getProperty(particles[i].name..'.alpha') > 0 then
+						setProperty(particles[i].name..'.scale.x', particles[i].scale * getProperty(particles[i].name..'.alpha'))
+						setProperty(particles[i].name..'.scale.y', particles[i].scale * getProperty(particles[i].name..'.alpha'))
+					end					
+				end
 
-	if (curStep < 390) or (curStep >= endTime and curStep < 2820) then
-		bubble(xPos, 1500)
+					--remove the particle
+				if getProperty(particles[i].name..'.alpha') <= 0 then
+					removeLuaSprite(particles[i].name, true)
+					particles[i] = nil
+				end
+			end			
+		end
 	end
 end

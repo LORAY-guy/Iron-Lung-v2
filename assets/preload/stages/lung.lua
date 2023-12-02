@@ -450,7 +450,6 @@ function onStepHit()
 		cancelTween('340')
 		if not goodEnd then
 			setHealth(0.1) --to make the icon go scawy
-			--characterDance("boyfriend")
 		    setProperty('monsta.visible', true)
 			objectPlayAnimation('splash', 'splash', false)
 			doTweenX('bigMonstaX', 'monsta.scale', 0.75, 0.7, 'linear')
