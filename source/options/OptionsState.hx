@@ -41,7 +41,7 @@ class OptionsState extends MusicBeatState
 		bg.color = 0xFFea71fd;
 		bg.updateHitbox();
 
-		Paths.image('characters/mark', null, true);
+		Paths.getSparrowAtlas('mainmenu/mark_menu_antialiasing', null, true);
 
 		bg.screenCenter();
 		add(bg);

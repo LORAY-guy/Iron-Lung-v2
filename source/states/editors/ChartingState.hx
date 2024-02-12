@@ -58,6 +58,7 @@ class ChartingState extends MusicBeatState
 		'Hey!',
 		'Hurt Note',
 		'GF Sing',
+		'Mark Sing',
 		'No Animation'
 	];
 	public var ignoreWarnings = false;
@@ -207,6 +208,7 @@ class ChartingState extends MusicBeatState
 				splashSkin: '', //idk it would crash if i didn't
 				player1: 'mark',
 				player2: 'mark',
+				player4: 'mark-webcam',
 				gfVersion: 'mark',
 				speed: 3,
 				stage: 'lung'
@@ -537,6 +539,14 @@ class ChartingState extends MusicBeatState
 		player2DropDown.selectedLabel = _song.player2;
 		blockPressWhileScrolling.push(player2DropDown);
 
+		var player4DropDown = new FlxUIDropDownMenu(player1DropDown.x + 140, gfVersionDropDown.y, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
+		{
+			_song.player4 = characters[Std.parseInt(character)];
+			updateHeads();
+		});
+		player4DropDown.selectedLabel = _song.player4;
+		blockPressWhileScrolling.push(player4DropDown);
+
 		#if MODS_ALLOWED
 		var directories:Array<String> = [Paths.mods('stages/'), Paths.mods(Mods.currentModDirectory + '/stages/'), Paths.getPreloadPath('stages/')];
 		for(mod in Mods.getGlobalMods())
@@ -619,12 +629,14 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
 		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
 		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
+		tab_group_song.add(new FlxText(player4DropDown.x, player4DropDown.y - 15, 0, 'Mark:'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
 		tab_group_song.add(new FlxText(noteSkinInputText.x, noteSkinInputText.y - 15, 0, 'Note Texture:'));
 		tab_group_song.add(new FlxText(noteSplashesInputText.x, noteSplashesInputText.y - 15, 0, 'Note Splashes Texture:'));
 		tab_group_song.add(player2DropDown);
 		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(player1DropDown);
+		tab_group_song.add(player4DropDown);
 		tab_group_song.add(stageDropDown);
 
 		UI_box.addGroup(tab_group_song);

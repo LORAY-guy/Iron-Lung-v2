@@ -2,6 +2,8 @@ package backend;
 
 import objects.Note;
 
+using StringTools;
+
 typedef NoteTypeProperty = {
 	property:Array<String>,
 	value:Dynamic
@@ -16,12 +18,23 @@ class NoteTypesConfig
 	public static function loadNoteTypeData(name:String)
 	{
 		if(noteTypesData.exists(name)) return noteTypesData.get(name);
-
-		var str:String = Paths.getTextFromFile('custom_notetypes/$name.txt');
+		
+		#if html5 
+		noteTypesData.set(name, []);
+		return [];
+		#end
+	
+		var str:String = Paths.getTextFromFile('notetypes/$name.txt', true);
 		if(str == null || !str.contains(':') || !str.contains('=')) noteTypesData.set(name, null);
-
+	
 		var parsed:Array<NoteTypeProperty> = [];
 		var lines:Array<String> = CoolUtil.listFromString(str);
+		if (lines.length < 1)
+		{
+			noteTypesData.set(name, []);
+			return [];
+		}
+
 		for (line in lines)
 		{
 			var sep:Int = line.indexOf(':');
@@ -30,13 +43,19 @@ class NoteTypesConfig
 				sep = line.indexOf('=');
 				if(sep < 0) continue;
 			}
-
+	
 			var arr:Array<String> = line.substr(0, sep).trim().split('.');
 			for (i in 0...arr.length) arr[i] = arr[i].trim();
-
+	
+			var valuePart:String = line.substr(sep + 1).trim();
+			if (valuePart == null) {
+				// Handle null valuePart (or log an error)
+				continue;
+			}
+	
 			var newProp:NoteTypeProperty = {
 				property: arr,
-				value: _interpretValue(line.substr(sep + 1).trim())
+				value: _interpretValue(valuePart)
 			}
 			//trace('pushing $newProp');
 			parsed.push(newProp);

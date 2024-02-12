@@ -296,7 +296,7 @@ class AlphaCharacter extends FlxSprite
 		'5'  => null, '6'  => null, '7'  => null, '8'  => null, '9'  => null,
 
 		//symbols
-		'&'  => {offsetsBold: [0, 2]},
+		'&'  => {anim: 'ampersand', offsetsBold: [0, 2]},
 		'('  => {offsetsBold: [0, 0]},
 		')'  => {offsetsBold: [0, 0]},
 		'['  => null,
@@ -304,8 +304,8 @@ class AlphaCharacter extends FlxSprite
 		'*'  => {offsets: [0, 28], offsetsBold: [0, 40]},
 		'+'  => {offsets: [0, 7], offsetsBold: [0, 12]},
 		'-'  => {offsets: [0, 16], offsetsBold: [0, 16]},
-		'<'  => {offsetsBold: [0, -2]},
-		'>'  => {offsetsBold: [0, -2]},
+		'<'  => {anim: 'less-than', offsetsBold: [0, -2]},
+		'>'  => {anim: 'greater-than', offsetsBold: [0, -2]},
 		'\'' => {anim: 'apostrophe', offsets: [0, 32], offsetsBold: [0, 40]},
 		'"'  => {anim: 'quote', offsets: [0, 32], offsetsBold: [0, 40]},
 		'!'  => {anim: 'exclamation'},

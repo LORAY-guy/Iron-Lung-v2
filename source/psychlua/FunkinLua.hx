@@ -1388,13 +1388,13 @@ class FunkinLua {
 			luaTrace('' + text1 + text2 + text3 + text4 + text5, true, false);
 		});
 
-		Lua_helper.add_callback(lua, "goodEndingBro", function() {
-			game.goodEnding = true;
+		Lua_helper.add_callback(lua, "setGoodEnding", function() {
+			states.stages.Lung.isGoodEnding = true;
 			return true;
 		});
 
 		Lua_helper.add_callback(lua, "youGood", function() {
-			return game.goodEnding;
+			return states.stages.Lung.isGoodEnding;
 		});
 		
 		addLocalCallback("close", function() {

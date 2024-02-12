@@ -14,14 +14,14 @@
 	<SubTexture name="% normal0001" x="208" y="10" width="46" height="52"/>
 	<SubTexture name="% normal0002" x="264" y="10" width="46" height="52"/>
 	<SubTexture name="% normal0003" x="264" y="10" width="46" height="52"/>
-	<SubTexture name="& bold0000" x="320" y="10" width="47" height="70"/>
-	<SubTexture name="& bold0001" x="320" y="10" width="47" height="70"/>
-	<SubTexture name="& bold0002" x="377" y="10" width="47" height="70"/>
-	<SubTexture name="& bold0003" x="377" y="10" width="47" height="70"/>
-	<SubTexture name="& normal0000" x="434" y="10" width="36" height="58"/>
-	<SubTexture name="& normal0001" x="434" y="10" width="36" height="58"/>
-	<SubTexture name="& normal0002" x="480" y="10" width="36" height="58"/>
-	<SubTexture name="& normal0003" x="480" y="10" width="36" height="58"/>
+	<SubTexture name="ampersand bold0000" x="320" y="10" width="47" height="70"/>
+	<SubTexture name="ampersand bold0001" x="320" y="10" width="47" height="70"/>
+	<SubTexture name="ampersand bold0002" x="377" y="10" width="47" height="70"/>
+	<SubTexture name="ampersand bold0003" x="377" y="10" width="47" height="70"/>
+	<SubTexture name="ampersand normal0000" x="434" y="10" width="36" height="58"/>
+	<SubTexture name="ampersand normal0001" x="434" y="10" width="36" height="58"/>
+	<SubTexture name="ampersand normal0002" x="480" y="10" width="36" height="58"/>
+	<SubTexture name="ampersand normal0003" x="480" y="10" width="36" height="58"/>
 	<SubTexture name="( bold0000" x="526" y="10" width="37" height="75"/>
 	<SubTexture name="( bold0001" x="526" y="10" width="37" height="75"/>
 	<SubTexture name="( bold0002" x="573" y="10" width="37" height="75"/>
@@ -150,26 +150,26 @@
 	<SubTexture name="; normal0001" x="1496" y="96" width="15" height="44"/>
 	<SubTexture name="; normal0002" x="1521" y="96" width="15" height="44"/>
 	<SubTexture name="; normal0003" x="1521" y="96" width="15" height="44"/>
-	<SubTexture name="< bold0000" x="1546" y="96" width="49" height="76"/>
-	<SubTexture name="< bold0001" x="1546" y="96" width="49" height="76"/>
-	<SubTexture name="< bold0002" x="1605" y="96" width="49" height="76"/>
-	<SubTexture name="< bold0003" x="1605" y="96" width="49" height="76"/>
-	<SubTexture name="< normal0000" x="1664" y="96" width="38" height="56"/>
-	<SubTexture name="< normal0001" x="1664" y="96" width="38" height="56"/>
-	<SubTexture name="< normal0002" x="1712" y="96" width="38" height="56"/>
-	<SubTexture name="< normal0003" x="1712" y="96" width="38" height="56"/>
+	<SubTexture name="less-than bold0000" x="1546" y="96" width="49" height="76"/>
+	<SubTexture name="less-than bold0001" x="1546" y="96" width="49" height="76"/>
+	<SubTexture name="less-than bold0002" x="1605" y="96" width="49" height="76"/>
+	<SubTexture name="less-than bold0003" x="1605" y="96" width="49" height="76"/>
+	<SubTexture name="less-than normal0000" x="1664" y="96" width="38" height="56"/>
+	<SubTexture name="less-than normal0001" x="1664" y="96" width="38" height="56"/>
+	<SubTexture name="less-than normal0002" x="1712" y="96" width="38" height="56"/>
+	<SubTexture name="less-than normal0003" x="1712" y="96" width="38" height="56"/>
 	<SubTexture name="= normal0000" x="1760" y="96" width="39" height="29"/>
 	<SubTexture name="= normal0001" x="1760" y="96" width="39" height="29"/>
 	<SubTexture name="= normal0002" x="1809" y="96" width="39" height="29"/>
 	<SubTexture name="= normal0003" x="1809" y="96" width="39" height="29"/>
-	<SubTexture name="> bold0000" x="1858" y="96" width="49" height="76"/>
-	<SubTexture name="> bold0001" x="1858" y="96" width="49" height="76"/>
-	<SubTexture name="> bold0002" x="1917" y="96" width="49" height="76"/>
-	<SubTexture name="> bold0003" x="1917" y="96" width="49" height="76"/>
-	<SubTexture name="> normal0000" x="1976" y="96" width="38" height="61"/>
-	<SubTexture name="> normal0001" x="1976" y="96" width="38" height="61"/>
-	<SubTexture name="> normal0002" x="10" y="182" width="38" height="61"/>
-	<SubTexture name="> normal0003" x="10" y="182" width="38" height="61"/>
+	<SubTexture name="greater-than bold0000" x="1858" y="96" width="49" height="76"/>
+	<SubTexture name="greater-than bold0001" x="1858" y="96" width="49" height="76"/>
+	<SubTexture name="greater-than bold0002" x="1917" y="96" width="49" height="76"/>
+	<SubTexture name="greater-than bold0003" x="1917" y="96" width="49" height="76"/>
+	<SubTexture name="greater-than normal0000" x="1976" y="96" width="38" height="61"/>
+	<SubTexture name="greater-than normal0001" x="1976" y="96" width="38" height="61"/>
+	<SubTexture name="greater-than normal0002" x="10" y="182" width="38" height="61"/>
+	<SubTexture name="greater-than normal0003" x="10" y="182" width="38" height="61"/>
 	<SubTexture name="@ normal0000" x="58" y="182" width="52" height="56"/>
 	<SubTexture name="@ normal0001" x="58" y="182" width="52" height="56"/>
 	<SubTexture name="@ normal0002" x="120" y="182" width="52" height="56"/>

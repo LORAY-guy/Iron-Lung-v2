@@ -2,6 +2,7 @@ package substates;
 
 import backend.WeekData;
 import backend.Highscore;
+import backend.Difficulty;
 import backend.Song;
 
 import flixel.addons.transition.FlxTransitionableState;
@@ -81,7 +82,11 @@ class PauseSubState extends MusicBeatSubstate
 		blueballedTxt.updateHitbox();
 		add(blueballedTxt);
 
-		var levelDifficulty:FlxText = new FlxText(20, 15 + 64, 0, Difficulty.getString().toUpperCase(), 32);
+		#if html5
+		var levelDifficulty:FlxText = new FlxText(20, 15 + 64, 0, Difficulty.getStringHTML(PlayState.storyDifficulty).toUpperCase(), 32);
+		#else
+		var levelDifficulty:FlxText = new FlxText(20, 15 + 64, 0, Difficulty.getString(PlayState.storyDifficulty).toUpperCase(), 32);
+		#end
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32);
 		levelDifficulty.updateHitbox();

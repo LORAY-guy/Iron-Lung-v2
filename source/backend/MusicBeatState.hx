@@ -12,6 +12,8 @@ class MusicBeatState extends FlxUIState
 	private var curStep:Int = 0;
 	private var curBeat:Int = 0;
 
+	private var bpm:Int = 100;
+
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
 	public var controls(get, never):Controls;
@@ -187,6 +189,14 @@ class MusicBeatState extends FlxUIState
 		stagesFunc(function(stage:BaseStage) {
 			stage.curSection = curSection;
 			stage.sectionHit();
+		});
+	}
+
+	public function changeBPM(bpm:Int):Void
+	{
+		stagesFunc(function(stage:BaseStage) {
+			stage.bpm = bpm;
+			stage.changeBPM(bpm);
 		});
 	}
 

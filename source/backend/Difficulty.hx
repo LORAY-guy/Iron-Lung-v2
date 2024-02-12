@@ -51,23 +51,13 @@ class Difficulty
 		else resetList();
 	}
 
-	inline public static function resetList()
-	{
-		list = defaultList.copy();
-	}
+	inline public static function resetList() list = defaultList.copy();
 
-	inline public static function copyFrom(diffs:Array<String>)
-	{
-		list = diffs.copy();
-	}
+	inline public static function copyFrom(diffs:Array<String>) list = diffs.copy();
+	
+	inline public static function getString(num:Null<Int> = null):String return list[num == null ? PlayState.storyDifficulty : num];
 
-	inline public static function getString(num:Null<Int> = null):String
-	{
-		return list[num == null ? PlayState.storyDifficulty : num];
-	}
+	#if html5 inline public static function getStringHTML(num:Null<Int> = null):String if (PlayState.sunkMark == null) return defaultList[num == null ? PlayState.storyDifficulty : num]; else return PlayState.sunkMark; #end
 
-	inline public static function getDefault():String
-	{
-		return defaultDifficulty;
-	}
+	inline public static function getDefault():String return defaultDifficulty;
 }

@@ -19,6 +19,7 @@ import substates.GameplayChangersSubstate;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.1'; //This is also used for Discord RPC
+	public static var ironLungVersion:String = '2.5'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -138,7 +139,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Iron Lung v2", 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Iron Lung v" + ironLungVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -220,7 +221,7 @@ class MainMenuState extends MusicBeatState
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
 									case 'credits':
-										MusicBeatState.switchState(new CreditsState());
+										MusicBeatState.switchState(new states.credits.CreditsState());
 									case 'options':
 										LoadingState.loadAndSwitchState(new OptionsState());
 										OptionsState.onPlayState = false;

@@ -29,6 +29,7 @@ class LoadingState extends MusicBeatState
 	var directory:String;
 	var callbacks:MultiCallback;
 	var targetShit:Float = 0;
+	var bgs:Array<String> = ['wallpaper', 'iron lung', 'timnail', 'toasty', 'whitey'];
 
 	function new(target:FlxState, stopMusic:Bool, directory:String)
 	{
@@ -45,8 +46,9 @@ class LoadingState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d);
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		add(bg);
-		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/funkay.png', IMAGE));
-		funkay.setGraphicSize(0, FlxG.height);
+		var loadBG:String = bgs[FlxG.random.int(0, bgs.length-1)];
+		funkay = new FlxSprite(0, 0).loadGraphic(Paths.getPath('images/loading/$loadBG.png', IMAGE));
+		funkay.setGraphicSize(Std.int(funkay.width * (2 / 3)));
 		funkay.updateHitbox();
 		add(funkay);
 		funkay.antialiasing = ClientPrefs.data.antialiasing;
@@ -66,7 +68,7 @@ class LoadingState extends MusicBeatState
 				if (PlayState.SONG != null) {
 					checkLoadSong(getSongPath());
 					if (PlayState.SONG.needsVoices)
-						checkLoadSong(getVocalPath());
+						if (PlayState.SONG.song.toLowerCase() == 'sunk') checkLoadSong(getVocalSunkPath()) else checkLoadSong(getVocalPath());
 				}
 				checkLibrary("shared");
 				if(directory != null && directory.length > 0 && directory != 'shared') {
@@ -111,13 +113,6 @@ class LoadingState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		funkay.setGraphicSize(Std.int(0.88 * FlxG.width + 0.9 * (funkay.width - 0.88 * FlxG.width)));
-		funkay.updateHitbox();
-		if(controls.ACCEPT)
-		{
-			funkay.setGraphicSize(Std.int(funkay.width + 60));
-			funkay.updateHitbox();
-		}
 
 		if(callbacks != null) {
 			targetShit = FlxMath.remapToRange(callbacks.numRemaining / callbacks.length, 1, 0, 0, 1);
@@ -133,21 +128,14 @@ class LoadingState extends MusicBeatState
 		MusicBeatState.switchState(target);
 	}
 	
-	static function getSongPath()
-	{
-		return Paths.inst(PlayState.SONG.song);
-	}
+	static function getSongPath() return Paths.inst(PlayState.SONG.song);
 	
-	static function getVocalPath()
-	{
-		return Paths.voices(PlayState.SONG.song);
-	}
+	static function getVocalPath() return Paths.voices(PlayState.SONG.song);
+
+	static function getVocalSunkPath() return Paths.voicesSunk(PlayState.SONG.song, PlayState.sunkMark);
 	
-	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)
-	{
-		MusicBeatState.switchState(getNextState(target, stopMusic));
-	}
-	
+	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false) MusicBeatState.switchState(getNextState(target, stopMusic));
+
 	static function getNextState(target:FlxState, stopMusic = false):FlxState
 	{
 		var directory:String = 'shared';
@@ -162,7 +150,7 @@ class LoadingState extends MusicBeatState
 		#if NO_PRELOAD_ALL
 		var loaded:Bool = false;
 		if (PlayState.SONG != null) {
-			loaded = isSoundLoaded(getSongPath()) && (!PlayState.SONG.needsVoices || isSoundLoaded(getVocalPath())) && isLibraryLoaded("shared") && isLibraryLoaded('week_assets');
+			loaded = isSoundLoaded(getSongPath()) && (!PlayState.SONG.needsVoices || (PlayState.SONG.song.toLowerCase() == 'sunk') ? isSoundLoaded(getVocalSunkPath()) : isSoundLoaded(getVocalPath())) && isLibraryLoaded("shared");
 		}
 		
 		if (!loaded)
@@ -181,10 +169,7 @@ class LoadingState extends MusicBeatState
 		return Assets.cache.hasSound(path);
 	}
 	
-	static function isLibraryLoaded(library:String):Bool
-	{
-		return Assets.getLibrary(library) != null;
-	}
+	static function isLibraryLoaded(library:String):Bool return Assets.getLibrary(library) != null;
 	#end
 	
 	override function destroy()

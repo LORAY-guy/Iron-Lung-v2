@@ -2,8 +2,6 @@ package options;
 
 import flixel.math.FlxPoint;
 
-import backend.StageData;
-import objects.Character;
 import objects.HealthBar;
 import flixel.addons.display.shapes.FlxShapeCircle;
 
@@ -102,9 +100,9 @@ class NoteOffsetState extends MusicBeatState
 		/*boyfriend = new Character(1150, 755, 'mark', false);
 		add(boyfriend);*/
 
-		boyfriend = new FlxSprite(1070, 540);
-		boyfriend.frames = Paths.getSparrowAtlas('mainmenu/mark_menu');
-		boyfriend.animation.addByPrefix('idle', "Idle", 24);
+		boyfriend = new FlxSprite(1070, 570);
+		boyfriend.frames = Paths.getSparrowAtlas('mainmenu/mark_menu_antialiasing');
+		boyfriend.animation.addByPrefix('idle', "Idle", 24, false);
 		boyfriend.animation.play('idle');
 		boyfriend.setGraphicSize(Std.int(boyfriend.width * 0.65));
 		boyfriend.updateHitbox();
@@ -450,17 +448,23 @@ class NoteOffsetState extends MusicBeatState
 			if(zoomTween != null) zoomTween.cancel();
 			if(beatTween != null) beatTween.cancel();
 
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.music.volume = 0;
 			persistentUpdate = false;
 			CustomFadeTransition.nextCamera = camOther;
-			MusicBeatState.switchState(new options.OptionsState());
-			if(OptionsState.onPlayState)
+			FlxG.camera.fade(FlxColor.BLACK, 0.5, false);
+			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				if(ClientPrefs.data.pauseMusic != 'None')
-					FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));
-				else
-					FlxG.sound.music.volume = 0;
-			}
-			else FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				MusicBeatState.switchState(new options.OptionsState());
+				if(OptionsState.onPlayState)
+				{
+					if(ClientPrefs.data.pauseMusic != 'None')
+						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));
+					else
+						FlxG.sound.music.volume = 0;
+				}
+				else FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			});
 			FlxG.mouse.visible = false;
 		}
 
